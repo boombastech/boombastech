@@ -14,20 +14,20 @@ import java.util.List;
 
 public class ActiveRouteProvider implements Provider<ActiveRoute> {
 
-	private final Request request;
 	private final RouteStore routeStore;
 	private final Injector injector;
+	private final Provider<Request> requestProvider;
 
 	@Inject
-	public ActiveRouteProvider(Request request, RouteStore routeStore, Injector injector) {
-		this.request = request;
+	public ActiveRouteProvider(Provider<Request> requestProvider, RouteStore routeStore, Injector injector) {
+		this.requestProvider = requestProvider;
 		this.routeStore = routeStore;
 		this.injector = injector;
 	}
 
 	@Override
 	public ActiveRoute get() {
-		Route route = routeStore.getRouteFor(request);
+		Route route = routeStore.getRouteFor(requestProvider.get());
 		List<Controller> controllers = Lists.newArrayList();
 
 		for (Class<? extends Controller> controllerClass : route) {

@@ -1,11 +1,14 @@
 package uk.co.boombastech.routes;
 
-import com.google.inject.Injector;
 import uk.co.boombastech.controllers.Controller;
 import uk.co.boombastech.http.Request;
 import uk.co.boombastech.http.Response;
+import uk.co.boombastech.injection.ActiveRouteProvider;
+import uk.co.boombastech.injection.RequestProvider;
+import uk.co.boombastech.injection.ResponseProvider;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -16,19 +19,23 @@ import java.io.IOException;
 @Singleton
 public class MyServlet extends HttpServlet {
 
-	private final Injector injector;
+	private final Provider<Request> requestProvider;
+	private final Provider<Response> responseProvider;
+	private final ActiveRouteProvider activeRouteProvider;
 
 	@Inject
-	public MyServlet(Injector injector) {
-		this.injector = injector;
+	public MyServlet(Provider<Request> requestProvider, Provider<Response> responseProvider, ActiveRouteProvider activeRouteProvider) {
+		this.requestProvider = requestProvider;
+		this.responseProvider = responseProvider;
+		this.activeRouteProvider = activeRouteProvider;
 	}
 
 	@Override
 	public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-		Request request = injector.getInstance(Request.class);
-		Response response = injector.getInstance(Response.class);
+		Request request = requestProvider.get();
+		Response response = responseProvider.get();
 
-		for (Controller controller : injector.getInstance(ActiveRoute.class)) {
+		for (Controller controller : activeRouteProvider.get()) {
 			controller.execute(request, response);
 		}
 	}

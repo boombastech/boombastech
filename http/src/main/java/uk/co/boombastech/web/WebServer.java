@@ -2,13 +2,11 @@ package uk.co.boombastech.web;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.servlet.GuiceFilter;
-import com.google.inject.servlet.GuiceServletContextListener;
-import com.google.inject.servlet.RequestScoped;
-import com.google.inject.servlet.ServletModule;
+import com.google.inject.servlet.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import uk.co.boombastech.controllers.AnotherController;
 import uk.co.boombastech.controllers.HomepageController;
 import uk.co.boombastech.http.Request;
 import uk.co.boombastech.http.Response;
@@ -34,12 +32,13 @@ public class WebServer extends GuiceServletContextListener {
 			protected void configureServlets() {
 				serve("*").with(MyServlet.class);
 
-				bind(Request.class).toProvider(RequestProvider.class);
-				bind(Response.class).toProvider(ResponseProvider.class);
-				bind(ActiveRoute.class).toProvider(ActiveRouteProvider.class).in(RequestScoped.class);
+				bind(Request.class).toProvider(RequestProvider.class).in(ServletScopes.REQUEST);
+				bind(Response.class).toProvider(ResponseProvider.class).in(ServletScopes.REQUEST);
+				bind(ActiveRoute.class).toProvider(ActiveRouteProvider.class).in(ServletScopes.REQUEST);
 
 				MutableRouteStore mutableRouteStore = new MutableRouteStore();
 				mutableRouteStore.withRoute(route("/").withController(HomepageController.class));
+				mutableRouteStore.withRoute(route("/more").withController(AnotherController.class));
 				bind(MutableRouteStore.class).toInstance(mutableRouteStore);
 			}
 		});
@@ -55,16 +54,11 @@ public class WebServer extends GuiceServletContextListener {
 		Server server = new Server(port);
 
 		ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/", ServletContextHandler.SESSIONS);
-		servletContextHandler.addFilter(GuiceFilter.class, "/", EnumSet.allOf(DispatcherType.class));
+		servletContextHandler.addFilter(GuiceFilter.class, "*", EnumSet.allOf(DispatcherType.class));
 		servletContextHandler.addEventListener(new WebServer());
 
-// You MUST add DefaultServlet or your server will always return 404s
 		servletContextHandler.addServlet(DefaultServlet.class, "/");
-
-// Start the server
 		server.start();
-
-// Wait until the server exits
 		server.join();
 	}
 }
