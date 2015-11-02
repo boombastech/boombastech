@@ -1,0 +1,16 @@
+dependencies {
+    compile project(":common")
+    testCompile project (path: ":common", configuration: 'testArtifacts')
+
+    compile 'commons-logging:commons-logging:1.2'
+    compile 'org.apache.solr:solr-solrj:5.3.0'
+}
+
+sourceSets {
+    test {
+        java {
+            srcDir 'src/test/unit'
+            srcDir 'src/test/java'
+        }
+    }
+}

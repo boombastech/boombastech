@@ -1,7 +1,15 @@
 subprojects {
 	apply plugin: 'java'
-	
+
 	repositories {
 		mavenCentral()
+	}
+
+	dependencies {
+		compile 'com.google.guava:guava:18.0'
+		compile 'com.google.inject:guice:4.0'
+
+		testCompile 'junit:junit:4.12'
+		testCompile 'org.assertj:assertj-core:3.1.0'
 	}
 }
