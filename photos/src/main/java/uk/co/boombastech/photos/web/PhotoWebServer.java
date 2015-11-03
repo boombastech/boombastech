@@ -2,6 +2,7 @@ package uk.co.boombastech.photos.web;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Module;
+import uk.co.boombastech.photos.importer.ImporterService;
 import uk.co.boombastech.photos.injection.PhotosModule;
 import uk.co.boombastech.routes.MutableRouteStore;
 import uk.co.boombastech.solr.injection.SolrModule;
