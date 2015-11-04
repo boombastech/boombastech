@@ -38,5 +38,7 @@ public class MyServlet extends HttpServlet {
 		for (Controller controller : activeRouteProvider.get()) {
 			controller.execute(request, response);
 		}
+
+		response.render();
 	}
 }

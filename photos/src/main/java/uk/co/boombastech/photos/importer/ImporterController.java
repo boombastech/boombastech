@@ -3,8 +3,10 @@ package uk.co.boombastech.photos.importer;
 import uk.co.boombastech.controllers.Controller;
 import uk.co.boombastech.http.Request;
 import uk.co.boombastech.http.Response;
+import uk.co.boombastech.photos.Photo;
 
 import javax.inject.Inject;
+import java.util.Date;
 
 public class ImporterController implements Controller {
 
@@ -21,6 +23,8 @@ public class ImporterController implements Controller {
 			response.withValue("test", "importer found update");
 		} else {
 			response.withValue("test", "no update found");
+			response.withValue("more", "importer found update");
+			response.withValue("even", new Photo("filename.jpg", new Date()));
 		}
 	}
 }

@@ -4,6 +4,8 @@ import uk.co.boombastech.controllers.Controller;
 import uk.co.boombastech.http.Request;
 import uk.co.boombastech.http.Response;
 
+import java.util.Optional;
+
 public class AnotherController implements Controller {
 
 	@Override

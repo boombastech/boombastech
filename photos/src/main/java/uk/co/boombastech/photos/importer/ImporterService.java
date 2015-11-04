@@ -6,6 +6,7 @@ import com.drew.metadata.Metadata;
 import uk.co.boombastech.photos.Photo;
 import uk.co.boombastech.photos.PhotoCreator;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -16,8 +17,10 @@ public class ImporterService {
 	private static final String WATCH_DIRECTORY = "C:\\photos";
 
 	private final WatchService watchService;
+	private final PhotoIndexer photoIndexer;
 
-	public ImporterService() {
+	@Inject
+	public ImporterService(PhotoIndexer photoIndexer) {
 		WatchService tempWatchService = null;
 		try {
 			tempWatchService = FileSystems.getDefault().newWatchService();
@@ -27,9 +30,8 @@ public class ImporterService {
 			System.out.println("error creating ImporterService");
 		}
 
-		watchService = tempWatchService;
-
-		System.out.println("starter ImporterService");
+		this.watchService = tempWatchService;
+		this.photoIndexer = photoIndexer;
 	}
 
 	public boolean run() {
@@ -40,26 +42,25 @@ public class ImporterService {
 				if (key != null) {
 					System.out.println("found update");
 					for (WatchEvent<?> event : key.pollEvents()) {
-					WatchEvent.Kind<?> kind = event.kind();
+						WatchEvent.Kind<?> kind = event.kind();
 
-						@SuppressWarnings("unchecked")
 						WatchEvent<Path> ev = (WatchEvent<Path>) event;
 						Path fileName = ev.context();
 
 						if (kind == StandardWatchEventKinds.OVERFLOW) {
 							continue;
 						} else if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
-							File file1 = fileName.toFile();
 							File file = new File(WATCH_DIRECTORY, fileName.getFileName().toString());
-							Metadata metadata = ImageMetadataReader.readMetadata(file);
-							Photo photo = new PhotoCreator(fileName, metadata).create();
+							photoIndexer.index(file);
 						}
 					}
+
+					photoIndexer.commit();
 
 					key.reset();
 					return true;
 			}
-		} catch (InterruptedException | ImageProcessingException | IOException e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 

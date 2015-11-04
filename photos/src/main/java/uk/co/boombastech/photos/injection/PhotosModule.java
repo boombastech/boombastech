@@ -5,6 +5,7 @@ import uk.co.boombastech.photos.Photo;
 import uk.co.boombastech.photos.controllers.HomepageController;
 import uk.co.boombastech.photos.importer.ImporterController;
 import uk.co.boombastech.photos.importer.ImporterService;
+import uk.co.boombastech.photos.importer.PhotoIndexer;
 import uk.co.boombastech.photos.importer.PhotoSolrDocumentConverter;
 import uk.co.boombastech.routes.MutableRouteStore;
 import uk.co.boombastech.routes.RouteBuilder;
@@ -30,5 +31,6 @@ public class PhotosModule extends WebModule {
 		});
 
 		bind(ImporterService.class).asEagerSingleton();
+		bind(PhotoIndexer.class);
 	}
 }

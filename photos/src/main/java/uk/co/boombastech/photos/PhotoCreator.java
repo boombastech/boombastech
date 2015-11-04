@@ -9,6 +9,7 @@ import com.drew.metadata.file.FileMetadataDescriptor;
 import com.drew.metadata.file.FileMetadataDirectory;
 import com.google.common.collect.Lists;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.security.Timestamp;
 import java.text.DateFormat;
@@ -21,22 +22,17 @@ import static com.google.common.collect.Lists.newArrayList;
 
 public class PhotoCreator {
 
-	private String filename;
-	private Date date;
-
-	public PhotoCreator(Path fileName, Metadata metadata) {
-		filename = fileName.getFileName().toString();
+	public Photo create(File fileName, Metadata metadata) {
+		String filename = fileName.getName().toString();
 		ExifIFD0Directory exifIFD0Directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
 		String timestamp = exifIFD0Directory.getDescription(306);
-		DateFormat format = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss", Locale.ENGLISH);
+		DateFormat format = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss");
+		Date date;
 		try {
 			date = format.parse(timestamp);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		} catch (ParseException exception) {
+			date = null;
 		}
-	}
-
-	public Photo create() {
 		return new Photo(filename, date);
 	}
 }

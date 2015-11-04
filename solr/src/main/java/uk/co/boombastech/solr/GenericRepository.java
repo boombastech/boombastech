@@ -27,4 +27,13 @@ public class GenericRepository<T> implements Repository<T> {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void commit() {
+		try {
+			solrClient.commit();
+		} catch (SolrServerException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
