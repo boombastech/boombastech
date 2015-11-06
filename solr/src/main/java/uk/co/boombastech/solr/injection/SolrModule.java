@@ -8,6 +8,6 @@ public class SolrModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(SolrClient.class).toInstance(new HttpSolrClient("http://localhost:8983/solr/ia"));
+		bind(SolrClient.class).toInstance(new HttpSolrClient("http://localhost:8983/solr/photos"));
 	}
 }

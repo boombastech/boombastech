@@ -5,7 +5,7 @@ import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Metadata;
 import uk.co.boombastech.photos.Photo;
 import uk.co.boombastech.photos.PhotoCreator;
-import uk.co.boombastech.solr.Repository;
+import uk.co.boombastech.solr.search.SolrService;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -13,12 +13,12 @@ import java.io.IOException;
 
 public class PhotoIndexer {
 
-	private final Repository<Photo> repository;
+	private final SolrService<Photo> solrService;
 	private final PhotoCreator photoCreator;
 
 	@Inject
-	public PhotoIndexer(Repository<Photo> repository, PhotoCreator photoCreator) {
-		this.repository = repository;
+	public PhotoIndexer(SolrService<Photo> repository, PhotoCreator photoCreator) {
+		this.solrService = repository;
 		this.photoCreator = photoCreator;
 	}
 
@@ -30,10 +30,10 @@ public class PhotoIndexer {
 			e.printStackTrace();
 		}
 		Photo photo = photoCreator.create(file, metadata);
-		repository.create(photo);
+		solrService.update(photo);
 	}
 
 	public void commit() {
-		repository.commit();
+		solrService.commit();
 	}
 }

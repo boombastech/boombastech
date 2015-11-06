@@ -6,12 +6,9 @@ import uk.co.boombastech.photos.controllers.HomepageController;
 import uk.co.boombastech.photos.importer.ImporterController;
 import uk.co.boombastech.photos.importer.ImporterService;
 import uk.co.boombastech.photos.importer.PhotoIndexer;
-import uk.co.boombastech.photos.importer.PhotoSolrDocumentConverter;
 import uk.co.boombastech.routes.MutableRouteStore;
 import uk.co.boombastech.routes.RouteBuilder;
-import uk.co.boombastech.solr.GenericRepository;
-import uk.co.boombastech.solr.Repository;
-import uk.co.boombastech.solr.SolrDocumentConverter;
+import uk.co.boombastech.solr.search.SolrService;
 import uk.co.boombastech.web.WebModule;
 
 public class PhotosModule extends WebModule {
@@ -25,10 +22,7 @@ public class PhotosModule extends WebModule {
 		mutableRouteStore.withRoute(RouteBuilder.route("/").withController(HomepageController.class));
 		mutableRouteStore.withRoute(RouteBuilder.route("/import").withController(ImporterController.class));
 
-		bind(new TypeLiteral<Repository<Photo>>(){}).to(new TypeLiteral<GenericRepository<Photo>>() {
-		});
-		bind(new TypeLiteral<SolrDocumentConverter<Photo>>(){}).to(new TypeLiteral<PhotoSolrDocumentConverter>() {
-		});
+		bind(new TypeLiteral<SolrService<Photo>>() {}).toProvider(PhotoSolrService.class);
 
 		bind(ImporterService.class).asEagerSingleton();
 		bind(PhotoIndexer.class);
