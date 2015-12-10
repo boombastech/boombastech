@@ -30,21 +30,23 @@ public class SolrServiceImpl<T> implements SolrService<T> {
 	@Override
 	public SearchResult<T> search(SearchCriteria<T> searchCriteria) {
 		SolrQuery solrQuery = new SolrQuery();
+		StringBuilder query = new StringBuilder();
 
-		for (Facet facet : searchCriteria.getSearchCriteria().keySet()) {
+		for (String facet : searchCriteria.getSearchCriteria().keySet()) {
 			for (String value : searchCriteria.getSearchCriteria().get(facet)) {
-				solrQuery.set(facet.name(), value);
+//				solrQuery.set(facet, value);
+				String filterQuery = "(" + facet + ":" + value + ")";
+				query.append(filterQuery);
+
 			}
 		}
 
-		solrQuery.setQuery("*:*");
-		solrQuery.setFacet(true);
+//		solrQuery.setQuery("*:*");
+		solrQuery.setQuery(query.toString());
 
 		for (Facet facet : facets) {
 			solrQuery.addFacetField(facet.name());
 		}
-
-		solrQuery.addFacetField("category", "album");
 
 		try {
 			QueryResponse response = solrClient.query(solrQuery);

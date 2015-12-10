@@ -32,7 +32,12 @@ public class ServletRequestImpl implements Request {
 	@Override
 	public Parameters getQueryParameters() {
 		Multimap<Parameter, String> parameters = create();
-		String[] queryParams = request.getQueryString().split("&");
+		String[] queryParams;
+		if (request.getQueryString() != null) {
+			queryParams = request.getQueryString().split("&");
+		} else {
+			queryParams = new String[] {};
+		}
 
 		for (String queryParam : queryParams) {
 			String[] split = queryParam.split("=");

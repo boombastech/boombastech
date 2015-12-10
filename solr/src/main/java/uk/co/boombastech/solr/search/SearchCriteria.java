@@ -6,19 +6,19 @@ import static com.google.common.collect.ArrayListMultimap.create;
 
 public class SearchCriteria<T> {
 
-	private final Multimap<Facet, String> searchCriteria;
+	private final Multimap<String, String> searchCriteria;
 
 	public SearchCriteria() {
 		searchCriteria = create();
 	}
 
-	public SearchCriteria<T> withFacet(Facet facet, String value) {
+	public SearchCriteria<T> withFacet(String facet, String value) {
 		searchCriteria.put(facet, value);
 
 		return this;
 	}
 
-	public Multimap<Facet, String> getSearchCriteria() {
+	public Multimap<String, String> getSearchCriteria() {
 		return searchCriteria;
 	}
 }

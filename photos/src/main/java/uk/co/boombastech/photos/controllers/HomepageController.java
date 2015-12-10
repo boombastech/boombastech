@@ -5,12 +5,12 @@ import uk.co.boombastech.http.Parameter;
 import uk.co.boombastech.http.Request;
 import uk.co.boombastech.http.Response;
 import uk.co.boombastech.photos.Photo;
-import uk.co.boombastech.solr.search.Facet;
 import uk.co.boombastech.solr.search.SearchCriteria;
 import uk.co.boombastech.solr.search.SearchResult;
 import uk.co.boombastech.solr.search.SolrService;
 
 import javax.inject.Inject;
+import java.util.Collection;
 
 public class HomepageController implements Controller {
 
@@ -23,18 +23,16 @@ public class HomepageController implements Controller {
 
 	@Override
 	public void execute(Request request, Response response) {
+		SearchCriteria<Photo> searchCriteria = new SearchCriteria<>();
 
 		for (Parameter parameter : request.getQueryParameters()) {
-			request.getQueryParameter(parameter);
-		}
-
-
-		SearchResult query = solrService.search(new SearchCriteria<Photo>().withFacet(new Facet() {
-			@Override
-			public String name() {
-				return "category";
+			Collection<String> queryParameter = request.getQueryParameter(parameter);
+			for (String value : queryParameter) {
+				searchCriteria.withFacet(parameter.name(), value);
 			}
-		}, "holiday"));
+		}
+		SearchResult query = solrService.search(searchCriteria);
+
 		response.withValue("test", query);
 	}
 }
