@@ -6,11 +6,11 @@ import java.util.Map;
 
 import static java.util.Collections.emptyList;
 
-public class Parameters implements Iterable<Parameter> {
+public class Parameters implements Iterable<String> {
 
-	private final Map<Parameter, Collection<String>> parameters;
+	private final Map<String, Collection<String>> parameters;
 
-	public Parameters(Map<Parameter, Collection<String>> parameters) {
+	public Parameters(Map<String, Collection<String>> parameters) {
 		this.parameters = parameters;
 	}
 
@@ -18,12 +18,12 @@ public class Parameters implements Iterable<Parameter> {
 		return parameters.containsKey(key);
 	}
 
-	public Collection<String> getParameterValue(Parameter key) {
+	public Collection<String> getParameterValue(String key) {
 		return parameters.getOrDefault(key, emptyList());
 	}
 
 	@Override
-	public Iterator<Parameter> iterator() {
+	public Iterator<String> iterator() {
 		return parameters.keySet().iterator();
 	}
 }

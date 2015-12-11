@@ -2,10 +2,6 @@ package uk.co.boombastech.http;
 
 public enum CookieEnum implements Cookie {
 	userSession(-1);
-;
-
-	private static final int FLASH = 0;
-	private static final int SESSION = -1;
 
 	private final int maxAge;
 
@@ -15,7 +11,7 @@ public enum CookieEnum implements Cookie {
 
 	@Override
 	public String getName() {
-		return this.name();
+		return name();
 	}
 
 	@Override

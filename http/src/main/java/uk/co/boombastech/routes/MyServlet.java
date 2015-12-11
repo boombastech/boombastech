@@ -4,8 +4,6 @@ import uk.co.boombastech.controllers.Controller;
 import uk.co.boombastech.http.Request;
 import uk.co.boombastech.http.Response;
 import uk.co.boombastech.injection.ActiveRouteProvider;
-import uk.co.boombastech.injection.RequestProvider;
-import uk.co.boombastech.injection.ResponseProvider;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

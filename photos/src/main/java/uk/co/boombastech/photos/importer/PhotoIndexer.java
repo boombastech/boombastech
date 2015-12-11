@@ -3,7 +3,7 @@ package uk.co.boombastech.photos.importer;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Metadata;
-import uk.co.boombastech.photos.Photo;
+import uk.co.boombastech.photos.models.Photo;
 import uk.co.boombastech.photos.PhotoCreator;
 import uk.co.boombastech.solr.search.SolrService;
 

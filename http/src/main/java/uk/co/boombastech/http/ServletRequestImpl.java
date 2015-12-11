@@ -31,7 +31,7 @@ public class ServletRequestImpl implements Request {
 
 	@Override
 	public Parameters getQueryParameters() {
-		Multimap<Parameter, String> parameters = create();
+		Multimap<String, String> parameters = create();
 		String[] queryParams;
 		if (request.getQueryString() != null) {
 			queryParams = request.getQueryString().split("&");
@@ -41,29 +41,26 @@ public class ServletRequestImpl implements Request {
 
 		for (String queryParam : queryParams) {
 			String[] split = queryParam.split("=");
-			if (Parameter.hasValue(split[0])) {
-				parameters.put(Parameter.valueOf(split[0]), split[1]);
-			}
+			parameters.put(split[0], split[1]);
+
 		}
 
 		return new Parameters(parameters.asMap());
 	}
 
 	@Override
-	public Collection<String> getQueryParameter(Parameter parameter) {
+	public Collection<String> getQueryParameter(String parameter) {
 		return getQueryParameters().getParameterValue(parameter);
 	}
 
 	@Override
 	public Parameters getPostParameters() {
-		Multimap<Parameter, String> parameters = create();
+		Multimap<String, String> parameters = create();
 
 		Map<String, String[]> parameterMap = request.getParameterMap();
 		for (String key : parameterMap.keySet()) {
-			if (Parameter.hasValue(key)) {
-				for (String value : parameterMap.get(key)) {
-					parameters.put(Parameter.valueOf(key), value);
-				}
+			for (String value : parameterMap.get(key)) {
+				parameters.put(key, value);
 			}
 		}
 
@@ -71,7 +68,7 @@ public class ServletRequestImpl implements Request {
 	}
 
 	@Override
-	public Collection<String> getPostParameter(Parameter parameter) {
+	public Collection<String> getPostParameter(String parameter) {
 		return getPostParameters().getParameterValue(parameter);
 	}
 

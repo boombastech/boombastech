@@ -1,9 +1,7 @@
 package uk.co.boombastech.http;
 
-import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;

@@ -15,4 +15,8 @@ public class Facets implements Iterable<Facet> {
 	public Iterator<Facet> iterator() {
 		return facets.iterator();
 	}
+
+	public boolean contains(String parameter) {
+		return facets.stream().anyMatch(facet -> facet.name().equals(parameter));
+	}
 }

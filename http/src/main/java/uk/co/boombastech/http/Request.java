@@ -7,9 +7,9 @@ public interface Request {
 	String getUrl();
 	HttpMethod getMethod();
 	Parameters getQueryParameters();
-	Collection<String> getQueryParameter(Parameter parameter);
+	Collection<String> getQueryParameter(String parameter);
 	Parameters getPostParameters();
-	Collection<String> getPostParameter(Parameter parameter);
+	Collection<String> getPostParameter(String parameter);
 	Optional<String> getHeader(Header header);
 	Optional<String> getCookie(Cookie cookie);
 }

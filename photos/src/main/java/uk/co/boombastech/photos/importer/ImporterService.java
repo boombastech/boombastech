@@ -1,15 +1,10 @@
 package uk.co.boombastech.photos.importer;
 
-import com.drew.imaging.ImageMetadataReader;
-import com.drew.imaging.ImageProcessingException;
-import com.drew.metadata.Metadata;
-import uk.co.boombastech.photos.Photo;
-import uk.co.boombastech.photos.PhotoCreator;
-
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.nio.file.WatchEvent.Kind;
 import java.util.concurrent.TimeUnit;
 
 public class ImporterService {
@@ -30,7 +25,7 @@ public class ImporterService {
 			System.out.println("error creating ImporterService");
 		}
 
-		this.watchService = tempWatchService;
+		watchService = tempWatchService;
 		this.photoIndexer = photoIndexer;
 	}
 
@@ -42,7 +37,7 @@ public class ImporterService {
 				if (key != null) {
 					System.out.println("found update");
 					for (WatchEvent<?> event : key.pollEvents()) {
-						WatchEvent.Kind<?> kind = event.kind();
+						Kind<?> kind = event.kind();
 
 						WatchEvent<Path> ev = (WatchEvent<Path>) event;
 						Path fileName = ev.context();
