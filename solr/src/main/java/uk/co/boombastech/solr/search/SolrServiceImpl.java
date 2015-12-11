@@ -49,6 +49,7 @@ public class SolrServiceImpl<T> implements SolrService<T> {
 		try {
 			return createSearchResults(solrClient.query(solrQuery));
 		} catch (SolrServerException | IOException e) {
+
 			return new SearchResult<>(Collections.emptyList(), ArrayListMultimap.create(), 0);
 		}
 	}
