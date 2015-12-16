@@ -46,6 +46,8 @@ public class SolrServiceImpl<T> implements SolrService<T> {
 		solrQuery.setQuery(createQueryString(searchCriteria));
 		facets.forEach(facet -> solrQuery.addFacetField(facet.name()));
 
+		searchCriteria.getSortByField().ifPresent(sortField -> solrQuery.addSort(sortField, SolrQuery.ORDER.asc));
+
 		try {
 			return createSearchResults(solrClient.query(solrQuery));
 		} catch (SolrServerException | IOException e) {
