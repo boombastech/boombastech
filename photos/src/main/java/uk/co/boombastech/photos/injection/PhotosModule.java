@@ -2,6 +2,7 @@ package uk.co.boombastech.photos.injection;
 
 import com.google.common.collect.Lists;
 import com.google.inject.TypeLiteral;
+import uk.co.boombastech.photos.controllers.HtmlController;
 import uk.co.boombastech.photos.models.Photo;
 import uk.co.boombastech.photos.controllers.DeleteAllController;
 import uk.co.boombastech.photos.controllers.HomepageController;
@@ -23,7 +24,8 @@ public class PhotosModule extends WebModule {
 
 	@Override
 	protected void configure() {
-		mutableRouteStore.withRoute(RouteBuilder.route("/").withController(HomepageController.class));
+		mutableRouteStore.withRoute(RouteBuilder.route("/").withController(HtmlController.class));
+		mutableRouteStore.withRoute(RouteBuilder.route("/rest").withController(HomepageController.class));
 		mutableRouteStore.withRoute(RouteBuilder.route("/import").withController(ImporterController.class));
 //		mutableRouteStore.withRoute(RouteBuilder.route("/delete-all").withController(DeleteAllController.class));
 

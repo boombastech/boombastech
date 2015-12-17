@@ -17,9 +17,7 @@ public class ServletResponseImpl implements Response {
 	public ServletResponseImpl(HttpServletResponse response, Gson gson) {
 		this.response = response;
 		this.gson = gson;
-		this.responseObjects = newHashMap();
-
-		response.setContentType("application/json");
+		responseObjects = newHashMap();
 	}
 
 	@Override
@@ -41,9 +39,15 @@ public class ServletResponseImpl implements Response {
 
 	@Override
 	public void render() {
-		String json = gson.toJson(responseObjects);
+		String output;
+		if (responseObjects.size() == 1 && responseObjects.containsKey("html")) {
+			output = (String) responseObjects.get("html");
+		} else {
+			response.setContentType("application/json");
+			output = gson.toJson(responseObjects);
+		}
 		try {
-			response.getOutputStream().print(json);
+			response.getOutputStream().print(output);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
