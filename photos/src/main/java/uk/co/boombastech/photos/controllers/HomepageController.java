@@ -32,6 +32,11 @@ public class HomepageController implements Controller {
 				}
 			}
 		}
+
+		if (!request.getQueryParameter("sort").isEmpty()) {
+			searchCriteria.setSortByField(request.getQueryParameter("sort").iterator().next());
+		}
+
 		SearchResult query = solrService.search(searchCriteria);
 
 		response.withValue("test", query);

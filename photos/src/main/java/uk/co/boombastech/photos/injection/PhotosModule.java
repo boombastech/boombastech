@@ -27,7 +27,7 @@ public class PhotosModule extends WebModule {
 		mutableRouteStore.withRoute(RouteBuilder.route("/").withController(HtmlController.class));
 		mutableRouteStore.withRoute(RouteBuilder.route("/rest").withController(HomepageController.class));
 		mutableRouteStore.withRoute(RouteBuilder.route("/import").withController(ImporterController.class));
-//		mutableRouteStore.withRoute(RouteBuilder.route("/delete-all").withController(DeleteAllController.class));
+		mutableRouteStore.withRoute(RouteBuilder.route("/delete-all").withController(DeleteAllController.class));
 
 		bind(new TypeLiteral<SolrService<Photo>>() {}).toProvider(PhotoSolrServiceProvider.class);
 
