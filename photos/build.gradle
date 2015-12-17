@@ -4,12 +4,7 @@ dependencies {
 	compile project(":http")
     testCompile project (path: ":common", configuration: 'testArtifacts')
 
-    compile 'org.antlr:stringtemplate:4.0.2'
-    compile 'redis.clients:jedis:2.7.2'
-    compile 'javax.servlet:servlet-api:2.5'
-    compile 'com.sparkjava:spark-core:2.3'
     compile 'com.drewnoakes:metadata-extractor:2.8.1'
-    compile 'org.apache.solr:solr-solrj:5.3.0'
 }
 
 sourceSets {

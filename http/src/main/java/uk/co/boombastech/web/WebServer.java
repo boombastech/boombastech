@@ -6,19 +6,21 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
+import org.eclipse.jetty.server.DispatcherType;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.resource.PathResource;
-import org.eclipse.jetty.util.resource.Resource;
 import uk.co.boombastech.routes.MutableRouteStore;
 
-import javax.servlet.DispatcherType;
-import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Collections.emptyList;
 
 public abstract class WebServer extends GuiceServletContextListener {
 
@@ -27,7 +29,7 @@ public abstract class WebServer extends GuiceServletContextListener {
 	public WebServer() throws Exception {
 		MutableRouteStore mutableRouteStore = new MutableRouteStore();
 
-		List<Module> modules = Lists.newArrayList();
+		List<Module> modules = newArrayList();
 		modules.add(new BasicWebModule());
 		modules.addAll(modules(mutableRouteStore));
 		modules.add(new RouteStoreModule(mutableRouteStore));
@@ -37,23 +39,24 @@ public abstract class WebServer extends GuiceServletContextListener {
 		Server server = new Server(portNumber());
 
 		ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		servletContextHandler.setContextPath("/");
-		servletContextHandler.addFilter(GuiceFilter.class, "*", EnumSet.allOf(DispatcherType.class));
+		servletContextHandler.setContextPath(baseContextPath());
+		servletContextHandler.addFilter(GuiceFilter.class, "/*", EnumSet.allOf(DispatcherType.class));
 		servletContextHandler.addEventListener(this);
-		server.setHandler(servletContextHandler);
+		servletContextHandler.addServlet(DefaultServlet.class, "/");
 
-		String homePath = System.getProperty("user.home");
+		HandlerCollection handlerCollection = new HandlerCollection();
+		handlerCollection.addHandler(servletContextHandler);
+		additionalHandlers(newArrayList()).stream().forEach(handler -> handlerCollection.addHandler(handler));
 
-		ServletHolder holderHome = new ServletHolder("static-home", DefaultServlet.class);
-		holderHome.setInitParameter("resourceBase", homePath);
-		holderHome.setInitParameter("dirAllowed", "true");
-		holderHome.setInitParameter("pathInfoOnly", "true");
-		servletContextHandler.addServlet(holderHome, "/static/*");
-
-
-
+		server.setHandler(handlerCollection);
 		server.start();
 		server.join();
+	}
+
+	public abstract List<Handler> additionalHandlers(List<Handler> handlers);
+
+	public String baseContextPath() {
+		return "/";
 	}
 
 	public abstract List<Module> modules(MutableRouteStore mutableRouteStore);

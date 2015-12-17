@@ -22,7 +22,7 @@ public class RouteStore {
 
 	public Route getRouteFor(Request request) {
 		for (Route route : routes) {
-			if (route.getUrl().equalsIgnoreCase(request.getUrl())) {
+			if (("/api" + route.getUrl()).equalsIgnoreCase(request.getUrl())) {
 				return route;
 			}
 		}

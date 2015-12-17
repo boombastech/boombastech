@@ -6,21 +6,13 @@ dependencies {
 	compile project(":common")
 	testCompile project (path: ":common", configuration: 'testArtifacts')
 
-	compile 'com.google.guava:guava:18.0'
 	compile 'org.antlr:stringtemplate:4.0.2'
-	compile 'redis.clients:jedis:2.7.2'
-	compile 'javax.servlet:servlet-api:2.5'
-	compile 'com.sparkjava:spark-core:2.3'
 
-	compile 'org.eclipse.jetty:jetty-server:9.3.0.v20150612'
-	compile 'org.eclipse.jetty:jetty-servlet:9.3.0.v20150612'
-	compile 'javax.servlet:servlet-api:2.5'
+	compile 'org.eclipse.jetty:jetty-server:7.6.18.v20150929'
+	compile 'org.eclipse.jetty:jetty-servlet:7.6.18.v20150929'
 	compile 'javax.inject:javax.inject:1'
 	compile 'com.google.inject.extensions:guice-servlet:4.0'
 	compile 'com.google.code.gson:gson:2.4'
-
-	testCompile 'junit:junit:4.12'
-	testCompile 'org.assertj:assertj-core:3.1.0'
 }
 
 sourceSets {
