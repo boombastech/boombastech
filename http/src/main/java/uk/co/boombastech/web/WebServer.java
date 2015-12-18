@@ -14,6 +14,7 @@ import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import uk.co.boombastech.properties.ServletContextHandlerConfig;
 import uk.co.boombastech.routes.MutableRouteStore;
 
 import java.util.EnumSet;
@@ -38,6 +39,8 @@ public abstract class WebServer extends GuiceServletContextListener {
 
 		Server server = new Server(portNumber());
 
+		ServletContextHandler servletContextHandler1 = new ServletContextHandlerFactory().create(new ServletContextHandlerConfig());
+
 		ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		servletContextHandler.setContextPath(baseContextPath());
 		servletContextHandler.addFilter(GuiceFilter.class, "/*", EnumSet.allOf(DispatcherType.class));
@@ -55,9 +58,7 @@ public abstract class WebServer extends GuiceServletContextListener {
 
 	public abstract List<Handler> additionalHandlers(List<Handler> handlers);
 
-	public String baseContextPath() {
-		return "/";
-	}
+	public abstract String baseContextPath();
 
 	public abstract List<Module> modules(MutableRouteStore mutableRouteStore);
 

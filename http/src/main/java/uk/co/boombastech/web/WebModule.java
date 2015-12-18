@@ -5,12 +5,10 @@ import uk.co.boombastech.routes.MutableRouteStore;
 
 public abstract class WebModule extends AbstractModule {
 
-	protected final MutableRouteStore mutableRouteStore;
-
-	public WebModule(MutableRouteStore mutableRouteStore) {
-		this.mutableRouteStore = mutableRouteStore;
+	@Override
+	protected void configure() {
+		configure(new MutableRouteStore());
 	}
 
-	@Override
-	protected abstract void configure();
+	protected abstract void configure(MutableRouteStore mutableRouteStore);
 }
