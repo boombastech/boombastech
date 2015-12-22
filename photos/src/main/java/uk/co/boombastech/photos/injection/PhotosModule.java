@@ -19,7 +19,7 @@ import static uk.co.boombastech.routes.RouteBuilder.route;
 public class PhotosModule extends WebModule {
 
 	@Override
-	protected void configure(MutableRouteStore mutableRouteStore) {
+	public void configure(MutableRouteStore mutableRouteStore) {
 		mutableRouteStore.withRoute(route("/rest").withController(HomepageController.class));
 		mutableRouteStore.withRoute(route("/import").withController(ImporterController.class));
 		mutableRouteStore.withRoute(route("/delete-all").withController(DeleteAllController.class));

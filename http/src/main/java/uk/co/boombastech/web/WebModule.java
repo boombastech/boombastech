@@ -10,5 +10,5 @@ public abstract class WebModule extends AbstractModule {
 		configure(new MutableRouteStore());
 	}
 
-	protected abstract void configure(MutableRouteStore mutableRouteStore);
+	public abstract void configure(MutableRouteStore mutableRouteStore);
 }

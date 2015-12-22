@@ -4,7 +4,7 @@ import com.google.inject.Module;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import uk.co.boombastech.routes.MutableRouteStore;
-import uk.co.boombastech.web.WebServer;
+import uk.co.boombastech.web.BoombastechListener;
 
 import java.util.List;
 
@@ -37,8 +37,8 @@ public class WebServerBuilder {
 		return this;
 	}
 
-	public WebServer build() throws Exception {
-		return new WebServer() {
+	public BoombastechListener build() throws Exception {
+		return new BoombastechListener() {
 			@Override
 			public List<Handler> additionalHandlers(List<Handler> existingHandlers) {
 				existingHandlers.addAll(handlers);
@@ -48,16 +48,6 @@ public class WebServerBuilder {
 			@Override
 			public List<Module> modules(MutableRouteStore mutableRouteStore) {
 				return modules;
-			}
-
-			@Override
-			public int portNumber() {
-				return portNumber;
-			}
-
-			@Override
-			public String baseContextPath() {
-				return context;
 			}
 		};
 	}
