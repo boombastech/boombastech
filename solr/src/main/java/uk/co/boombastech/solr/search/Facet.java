@@ -1,8 +1,5 @@
 package uk.co.boombastech.solr.search;
 
-import uk.co.boombastech.common.Identifiable;
-
-public interface Facet extends Identifiable {
-	@Override
+public interface Facet {
 	String name();
 }

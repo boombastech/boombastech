@@ -12,7 +12,7 @@ public abstract class RedisCache<T> implements Cache<String, T> {
 
 	private final Jedis jedis;
 
-	public RedisCache(Jedis jedis) {
+	protected RedisCache(Jedis jedis) {
 		this.jedis = jedis;
 	}
 

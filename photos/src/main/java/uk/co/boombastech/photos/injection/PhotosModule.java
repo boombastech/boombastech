@@ -18,20 +18,21 @@ import static uk.co.boombastech.routes.RouteBuilder.route;
 
 public class PhotosModule extends WebModule {
 
-	public PhotosModule(MutableRouteStore mutableRouteStore) {
-		super(mutableRouteStore);
-	}
+
 
 	@Override
 	protected void configure() {
-		mutableRouteStore.withRoute(route("/rest").withController(HomepageController.class));
-		mutableRouteStore.withRoute(route("/import").withController(ImporterController.class));
-		mutableRouteStore.withRoute(route("/delete-all").withController(DeleteAllController.class));
-
 		bind(new TypeLiteral<SolrService<Photo>>() {}).toProvider(PhotoSolrServiceProvider.class);
 
 		bind(ImporterService.class).asEagerSingleton();
 		bind(PhotoIndexer.class);
 		bind(Facets.class).toInstance(new Facets(Lists.newArrayList(PhotoFacets.values())));
+	}
+
+	@Override
+	public void configureRoutes(MutableRouteStore mutableRouteStore) {
+		mutableRouteStore.withRoute(route("/rest").withController(HomepageController.class));
+		mutableRouteStore.withRoute(route("/import").withController(ImporterController.class));
+		mutableRouteStore.withRoute(route("/delete-all").withController(DeleteAllController.class));
 	}
 }

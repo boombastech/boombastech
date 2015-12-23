@@ -25,12 +25,12 @@ public class PhotoBuilder {
 	}
 
 	public PhotoBuilder withAlbum(String album) {
-		this.albums.add(album);
+		albums.add(album);
 		return this;
 	}
 
 	public PhotoBuilder withCategory(String category) {
-		this.categories.add(category);
+		categories.add(category);
 		return this;
 	}
 

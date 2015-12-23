@@ -1,14 +1,12 @@
 package uk.co.boombastech.photos.controllers;
 
 import uk.co.boombastech.controllers.Controller;
-import uk.co.boombastech.http.Parameter;
 import uk.co.boombastech.http.Request;
 import uk.co.boombastech.http.Response;
 import uk.co.boombastech.photos.models.Photo;
 import uk.co.boombastech.solr.search.*;
 
 import javax.inject.Inject;
-import java.util.Collection;
 
 public class HomepageController implements Controller {
 

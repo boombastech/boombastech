@@ -20,9 +20,9 @@ public class PhotoCreator {
 		Date date;
 		try {
 			date = format.parse(timestamp);
+			return new Photo(filename, date, null, null);
 		} catch (ParseException exception) {
-			date = null;
+			return new Photo(filename, null, null, null);
 		}
-		return new Photo(filename, date, null, null);
 	}
 }
