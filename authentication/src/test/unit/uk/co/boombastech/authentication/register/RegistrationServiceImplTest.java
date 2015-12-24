@@ -2,19 +2,19 @@ package uk.co.boombastech.authentication.register;
 
 import org.junit.Before;
 import org.junit.Test;
-import uk.co.boombastech.common.utils.UUIDUniqueStringGenerator;
-import uk.co.boombastech.common.utils.UniqueStringGenerator;
+import uk.co.boombastech.utils.UUIDUniqueStringGenerator;
+import uk.co.boombastech.utils.UniqueStringGenerator;
 import uk.co.boombastech.authentication.UserRepository;
 import uk.co.boombastech.authentication.UserRepositoryStub;
 import uk.co.boombastech.authentication.exceptions.NonMatchingPasswordsException;
 import uk.co.boombastech.authentication.exceptions.UserAlreadyExistsException;
-import uk.co.boombastech.common.email.EmailServiceStub;
-import uk.co.boombastech.common.encryption.EncryptionService;
-import uk.co.boombastech.common.encryption.EncryptionServiceStub;
+import uk.co.boombastech.email.EmailServiceStub;
+import uk.co.boombastech.encryption.EncryptionService;
+import uk.co.boombastech.encryption.EncryptionServiceStub;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.co.boombastech.authentication.ProfileBuilder.newProfile;
-import static uk.co.boombastech.authentication.register.RegisterMessageBuilder.newRegisterMessage;
+import static uk.co.boombastech.authentication.register.RegistrationMessageBuilder.newRegisterMessage;
 
 public class RegistrationServiceImplTest {
 

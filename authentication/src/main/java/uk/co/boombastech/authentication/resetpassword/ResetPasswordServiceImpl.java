@@ -7,7 +7,7 @@ import uk.co.boombastech.authentication.exceptions.InvalidForgottenPasswordCodeE
 import uk.co.boombastech.authentication.exceptions.NonMatchingPasswordsException;
 import uk.co.boombastech.authentication.exceptions.UnknownUserException;
 import uk.co.boombastech.authentication.forgottenpassword.ForgottenPasswordRepository;
-import uk.co.boombastech.common.encryption.EncryptionService;
+import uk.co.boombastech.encryption.EncryptionService;
 
 public class ResetPasswordServiceImpl implements ResetPasswordService {
 

@@ -1,14 +1,14 @@
 package uk.co.boombastech.authentication.register;
 
-import uk.co.boombastech.common.utils.UniqueStringGenerator;
+import uk.co.boombastech.utils.UniqueStringGenerator;
 import uk.co.boombastech.authentication.Profile;
 import uk.co.boombastech.authentication.UserRepository;
 import uk.co.boombastech.authentication.exceptions.AuthenticationException;
 import uk.co.boombastech.authentication.exceptions.NonMatchingPasswordsException;
 import uk.co.boombastech.authentication.exceptions.UserAlreadyExistsException;
-import uk.co.boombastech.common.email.Email;
-import uk.co.boombastech.common.email.EmailService;
-import uk.co.boombastech.common.encryption.EncryptionService;
+import uk.co.boombastech.email.Email;
+import uk.co.boombastech.email.EmailService;
+import uk.co.boombastech.encryption.EncryptionService;
 
 public class RegistrationServiceImpl implements RegistrationService {
 

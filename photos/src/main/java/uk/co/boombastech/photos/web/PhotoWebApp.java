@@ -2,12 +2,12 @@ package uk.co.boombastech.photos.web;
 
 import uk.co.boombastech.photos.injection.PhotosModule;
 import uk.co.boombastech.solr.injection.SolrModule;
-import uk.co.boombastech.web.WebServer;
-import uk.co.boombastech.web.WebServerBuilder;
+import uk.co.boombastech.http.web.WebServer;
+import uk.co.boombastech.http.web.WebServerBuilder;
 
-import static uk.co.boombastech.handlers.ResourceHandlerBuilder.resourceHandler;
-import static uk.co.boombastech.handlers.ServletContextHandlerBuilder.servletContextHandler;
-import static uk.co.boombastech.web.ListenerBuilder.listener;
+import static uk.co.boombastech.http.handlers.ResourceHandlerBuilder.resourceHandler;
+import static uk.co.boombastech.http.handlers.ServletContextHandlerBuilder.servletContextHandler;
+import static uk.co.boombastech.http.injection.ListenerBuilder.listener;
 
 public class PhotoWebApp {
 	public static void main(String[] args) throws Exception {

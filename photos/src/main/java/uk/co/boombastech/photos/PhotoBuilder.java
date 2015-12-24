@@ -1,13 +1,14 @@
 package uk.co.boombastech.photos;
 
 import uk.co.boombastech.photos.models.Photo;
+import uk.co.boombastech.utils.Builder;
 
 import java.util.Date;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
-public class PhotoBuilder {
+public class PhotoBuilder implements Builder<Photo> {
 
 	private String filename;
 	private Date date;
@@ -34,6 +35,7 @@ public class PhotoBuilder {
 		return this;
 	}
 
+	@Override
 	public Photo build() {
 		return new Photo(filename, date, albums, categories);
 	}

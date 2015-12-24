@@ -1,6 +1,8 @@
 package uk.co.boombastech.authentication.login;
 
-public class LoginMessageBuilder {
+import uk.co.boombastech.utils.Builder;
+
+public class LoginMessageBuilder implements Builder<LoginMessage> {
 	private String loginName;
 	private String password;
 	private boolean remember;
@@ -20,11 +22,12 @@ public class LoginMessageBuilder {
 		return this;
 	}
 
+	@Override
 	public LoginMessage build() {
 		return new LoginMessage(loginName, password, remember);
 	}
 
-	public static LoginMessageBuilder newLoginMessage() {
+	public static LoginMessageBuilder loginMessage() {
 		return new LoginMessageBuilder();
 	}
 }

@@ -1,6 +1,8 @@
 package uk.co.boombastech.authentication;
 
-public class ProfileBuilder {
+import uk.co.boombastech.utils.Builder;
+
+public class ProfileBuilder implements Builder<Profile> {
 	private String id;
 	private String email;
 	private String password;
@@ -24,6 +26,7 @@ public class ProfileBuilder {
 		return this;
 	}
 
+	@Override
 	public Profile build() {
 		return new Profile(id, email, password);
 	}

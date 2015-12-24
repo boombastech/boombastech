@@ -6,7 +6,7 @@ import uk.co.boombastech.authentication.Profile;
 import uk.co.boombastech.authentication.UserRepository;
 import uk.co.boombastech.authentication.UserRepositoryStub;
 import uk.co.boombastech.authentication.exceptions.UnknownUserException;
-import uk.co.boombastech.common.email.EmailServiceStub;
+import uk.co.boombastech.email.EmailServiceStub;
 
 import java.util.Optional;
 

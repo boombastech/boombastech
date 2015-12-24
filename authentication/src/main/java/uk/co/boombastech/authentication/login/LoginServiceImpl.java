@@ -1,11 +1,11 @@
 package uk.co.boombastech.authentication.login;
 
-import uk.co.boombastech.common.utils.UniqueStringGenerator;
+import uk.co.boombastech.utils.UniqueStringGenerator;
 import uk.co.boombastech.authentication.Profile;
 import uk.co.boombastech.authentication.UserRepository;
 import uk.co.boombastech.authentication.exceptions.InvalidPasswordLoginException;
 import uk.co.boombastech.authentication.exceptions.UnknownUserException;
-import uk.co.boombastech.common.encryption.EncryptionService;
+import uk.co.boombastech.encryption.EncryptionService;
 
 import java.util.Optional;
 

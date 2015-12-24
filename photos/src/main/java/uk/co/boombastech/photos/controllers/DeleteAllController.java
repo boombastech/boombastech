@@ -2,9 +2,9 @@ package uk.co.boombastech.photos.controllers;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
-import uk.co.boombastech.controllers.Controller;
-import uk.co.boombastech.http.Request;
-import uk.co.boombastech.http.Response;
+import uk.co.boombastech.http.controllers.Controller;
+import uk.co.boombastech.http.request.Request;
+import uk.co.boombastech.http.request.Response;
 
 import javax.inject.Inject;
 import java.io.IOException;

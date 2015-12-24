@@ -1,8 +1,8 @@
 package uk.co.boombastech.photos.importer;
 
-import uk.co.boombastech.controllers.Controller;
-import uk.co.boombastech.http.Request;
-import uk.co.boombastech.http.Response;
+import uk.co.boombastech.http.controllers.Controller;
+import uk.co.boombastech.http.request.Request;
+import uk.co.boombastech.http.request.Response;
 import uk.co.boombastech.photos.models.Photo;
 
 import javax.inject.Inject;

@@ -4,8 +4,8 @@ import uk.co.boombastech.authentication.Profile;
 import uk.co.boombastech.authentication.UserRepository;
 import uk.co.boombastech.authentication.exceptions.AuthenticationException;
 import uk.co.boombastech.authentication.exceptions.UnknownUserException;
-import uk.co.boombastech.common.email.Email;
-import uk.co.boombastech.common.email.EmailService;
+import uk.co.boombastech.email.Email;
+import uk.co.boombastech.email.EmailService;
 
 public class ForgottenPasswordServiceImpl implements ForgottenPasswordService {
 

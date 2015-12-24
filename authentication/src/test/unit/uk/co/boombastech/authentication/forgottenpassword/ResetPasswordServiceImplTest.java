@@ -10,8 +10,8 @@ import uk.co.boombastech.authentication.exceptions.UnknownUserException;
 import uk.co.boombastech.authentication.resetpassword.ResetPasswordMessage;
 import uk.co.boombastech.authentication.resetpassword.ResetPasswordService;
 import uk.co.boombastech.authentication.resetpassword.ResetPasswordServiceImpl;
-import uk.co.boombastech.common.encryption.EncryptionService;
-import uk.co.boombastech.common.encryption.EncryptionServiceStub;
+import uk.co.boombastech.encryption.EncryptionService;
+import uk.co.boombastech.encryption.EncryptionServiceStub;
 
 import static uk.co.boombastech.authentication.ProfileBuilder.newProfile;
 import static uk.co.boombastech.authentication.model.ProfileAssertions.assertThat;
