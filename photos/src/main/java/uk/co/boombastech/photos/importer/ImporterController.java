@@ -20,11 +20,9 @@ public class ImporterController implements Controller {
 	@Override
 	public void execute(Request request, Response response) {
 		if (importerService.run()) {
-			response.withValue("test", "importer found update");
+			response.withValue("importer found update");
 		} else {
-			response.withValue("test", "no update found");
-			response.withValue("more", "importer found update");
-			response.withValue("even", new Photo(null, 0, "filename.jpg", new Date(), null, null));
+			response.withValue("no update found");
 		}
 	}
 }

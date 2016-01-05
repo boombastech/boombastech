@@ -4,20 +4,22 @@ import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
 
 public class ServletResponseImpl implements Response {
 
 	private final HttpServletResponse response;
 	private final Gson gson;
-	private final Map<String, Object> responseObjects;
+	private final List<Object> responseObjects;
 
 	public ServletResponseImpl(HttpServletResponse response, Gson gson) {
 		this.response = response;
 		this.gson = gson;
-		responseObjects = newHashMap();
+		responseObjects = newArrayList();
 	}
 
 	@Override
@@ -28,8 +30,8 @@ public class ServletResponseImpl implements Response {
 	}
 
 	@Override
-	public void withValue(String key, Object value) {
-		responseObjects.put(key, value);
+	public void withValue(Object value) {
+		responseObjects.add(value);
 	}
 
 	@Override
@@ -39,15 +41,15 @@ public class ServletResponseImpl implements Response {
 
 	@Override
 	public void render() {
-		String output;
-		if (responseObjects.size() == 1 && responseObjects.containsKey("html")) {
-			output = (String) responseObjects.get("html");
-		} else {
-			response.setContentType("application/json");
-			output = gson.toJson(responseObjects);
-		}
+		response.setContentType("application/json");
 		try {
-			response.getOutputStream().print(output);
+			String responseString;
+			if (responseObjects.size() == 1) {
+				responseString = gson.toJson(responseObjects.get(0));
+			} else {
+				responseString = gson.toJson(responseObjects);
+			}
+			response.getOutputStream().print(responseString);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

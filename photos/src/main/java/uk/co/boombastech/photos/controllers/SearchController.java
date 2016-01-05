@@ -11,6 +11,8 @@ import javax.inject.Inject;
 public class SearchController implements Controller {
 
 	private static final String SORT = "sort";
+	private static final String SIZE = "size";
+	private static final String PAGE = "page";
 	private final SolrService<Photo> solrService;
 	private final Facets facets;
 
@@ -33,11 +35,25 @@ public class SearchController implements Controller {
 		}
 
 		if (!request.getQueryParameter(SORT).isEmpty()) {
-			searchCriteria.setSortByField(request.getQueryParameter("sort").iterator().next());
+			searchCriteria.setSortByField(request.getQueryParameter(SORT).iterator().next());
+		}
+
+		if (!request.getQueryParameter(SIZE).isEmpty()) {
+			try {
+				int pageNumber = Integer.parseInt(request.getQueryParameter(SIZE).iterator().next());
+				searchCriteria.setNumberOfResults(pageNumber);
+			} catch (NumberFormatException e) {}
+		}
+
+		if (!request.getQueryParameter(PAGE).isEmpty()) {
+			try {
+				int pageNumber = Integer.parseInt(request.getQueryParameter(PAGE).iterator().next());
+				searchCriteria.setPageNumber(pageNumber);
+			} catch (NumberFormatException e) {}
 		}
 
 		SearchResult query = solrService.search(searchCriteria);
 
-		response.withValue("test", query);
+		response.withValue(query);
 	}
 }

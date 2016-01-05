@@ -50,6 +50,9 @@ public class SolrServiceImpl<T> implements SolrService<T> {
 
 		searchCriteria.getSortByField().ifPresent(sortField -> solrQuery.addSort(sortField, ORDER.asc));
 
+		solrQuery.setRows(searchCriteria.getNumberOfResults());
+		solrQuery.setStart(searchCriteria.getNumberOfResults() * (searchCriteria.getPageNumber() -1));
+
 		try {
 			return createSearchResults(solrClient.query(solrQuery), searchCriteria);
 		} catch (SolrServerException | IOException e) {

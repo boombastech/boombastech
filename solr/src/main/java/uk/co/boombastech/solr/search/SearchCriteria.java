@@ -10,6 +10,8 @@ public class SearchCriteria<T> {
 
 	private final Multimap<String, String> searchCriteria;
 	private String sortByField;
+	private int numberOfResults = 10; // default to 10 results
+	private int pageNumber = 1; // default to first page
 
 	public SearchCriteria() {
 		searchCriteria = create();
@@ -30,5 +32,21 @@ public class SearchCriteria<T> {
 
 	public void setSortByField(String sortByField) {
 		this.sortByField = sortByField;
+	}
+
+	public int getNumberOfResults() {
+		return numberOfResults;
+	}
+
+	public void setNumberOfResults(int numberOfResults) {
+		this.numberOfResults = numberOfResults;
+	}
+
+	public int getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
 	}
 }

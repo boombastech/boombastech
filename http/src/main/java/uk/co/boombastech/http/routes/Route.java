@@ -12,7 +12,6 @@ public class Route implements Iterable<Class<? extends Controller>> {
 	private String url;
 	private List<Class<? extends Controller>> controllers;
 
-	@SafeVarargs
 	public Route(String url, Class<? extends Controller> controller, Class<? extends Controller>... controllers) {
 		this.url = url;
 		this.controllers = asList(controller, controllers);

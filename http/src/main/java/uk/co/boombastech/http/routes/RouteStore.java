@@ -1,5 +1,6 @@
 package uk.co.boombastech.http.routes;
 
+import uk.co.boombastech.http.controllers.Controller;
 import uk.co.boombastech.http.request.Request;
 
 import javax.inject.Inject;
@@ -13,7 +14,7 @@ public class RouteStore {
 
 	@Inject
 	public RouteStore(MutableRouteStore mutableRouteStore) {
-		this.routes = mutableRouteStore.getRoutes();
+		routes = mutableRouteStore.getRoutes();
 	}
 
 	public List<Route> getRoutes() {
@@ -27,7 +28,6 @@ public class RouteStore {
 			}
 		}
 
-		// TODO: change to error route
-		return null;
+		return new Route("/404", UnknownRouteController.class);
 	}
 }
