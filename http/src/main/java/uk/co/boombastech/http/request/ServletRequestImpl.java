@@ -1,12 +1,15 @@
 package uk.co.boombastech.http.request;
 
 import com.google.common.collect.Multimap;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
+import java.lang.reflect.Type;
+import java.util.*;
 
 import static com.google.common.collect.ArrayListMultimap.create;
 
@@ -86,5 +89,16 @@ public class ServletRequestImpl implements Request {
 		}
 
 		return Optional.empty();
+	}
+
+	@Override
+	public List<Map> getContent() {
+		try {
+			Type listType = new TypeToken<ArrayList<Map>>() {}.getType();
+			List listToReturn = new Gson().fromJson(request.getReader(), listType);
+			return listToReturn;
+		} catch (Exception e) {
+			return Collections.emptyList();
+		}
 	}
 }

@@ -24,7 +24,7 @@ public class PhotoWebApp {
 				.withHandler(resourceHandler()
 						.withContextPath("/photos")
 						.withShowDirectory(true)
-						.withResourceBase("C:/"))
+						.withResourceBase("C:/photos"))
 				.build();
 
 		webServer.start();

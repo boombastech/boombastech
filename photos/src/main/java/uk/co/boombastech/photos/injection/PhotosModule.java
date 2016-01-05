@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.TypeLiteral;
 import uk.co.boombastech.photos.controllers.DeleteAllController;
 import uk.co.boombastech.photos.controllers.SearchController;
+import uk.co.boombastech.photos.controllers.UpdateController;
 import uk.co.boombastech.photos.importer.ImporterController;
 import uk.co.boombastech.photos.importer.ImporterService;
 import uk.co.boombastech.photos.importer.PhotoIndexer;
@@ -29,7 +30,8 @@ public class PhotosModule extends WebModule {
 
 	@Override
 	public void configureRoutes(MutableRouteStore mutableRouteStore) {
-		mutableRouteStore.addRoute(route("/rest").withController(SearchController.class));
+		mutableRouteStore.addRoute(route("/search").withController(SearchController.class));
+		mutableRouteStore.addRoute(route("/update").withController(UpdateController.class));
 		mutableRouteStore.addRoute(route("/import").withController(ImporterController.class));
 		mutableRouteStore.addRoute(route("/delete-all").withController(DeleteAllController.class));
 	}

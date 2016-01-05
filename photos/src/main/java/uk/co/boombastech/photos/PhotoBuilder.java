@@ -10,10 +10,22 @@ import static com.google.common.collect.Lists.newArrayList;
 
 public class PhotoBuilder implements Builder<Photo> {
 
+	private String id;
 	private String filename;
 	private Date date;
 	private List<String> albums = newArrayList();
 	private List<String> categories = newArrayList();
+	private long version;
+
+	public PhotoBuilder withId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public PhotoBuilder withVersion(long version) {
+		this.version = version;
+		return this;
+	}
 
 	public PhotoBuilder withFilename(String filename) {
 		this.filename = filename;
@@ -37,6 +49,6 @@ public class PhotoBuilder implements Builder<Photo> {
 
 	@Override
 	public Photo build() {
-		return new Photo(filename, date, albums, categories);
+		return new Photo(id, version, filename, date, albums, categories);
 	}
 }

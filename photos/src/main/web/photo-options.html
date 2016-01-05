@@ -1,0 +1,16 @@
+<input type="text" ng-model="photo.filename"/>
+
+<div id="albums">
+    <div ng-repeat="album in photo.albums">
+        {{album}}
+        <button ng-click="remove( photo.albums, $index)">X</button>
+    </div>
+    <input type="text" ng-model="newAlbum">
+    <button ng-click="addAlbum()">Add album</button>
+    <div ng-repeat="category in photo.categories">
+        {{category}}
+        <button ng-click="remove( photo.categories, $index)">X</button>
+    </div>
+    <input type="text" ng-model="newCategory">
+    <button ng-click="addCategory()">Add category</button>
+</div>

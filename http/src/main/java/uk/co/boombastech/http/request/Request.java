@@ -1,6 +1,8 @@
 package uk.co.boombastech.http.request;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface Request {
@@ -12,4 +14,5 @@ public interface Request {
 	Collection<String> getPostParameter(String parameter);
 	Optional<String> getHeader(Header header);
 	Optional<String> getCookie(Cookie cookie);
+	List<Map> getContent();
 }

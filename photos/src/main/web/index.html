@@ -1,11 +1,32 @@
 <html ng-app="photoApp">
     <head>
         <link rel="stylesheet" type="text/css" href="css/main.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src="javascript/app.js"></script>
     </head>
-    <body ng-controller="PhotoController">
-        <h1>hello</h1>
-        <p>{{test}}</p>
+    <body ng-controller="PhotoController" ng-init="search()">
+
+        <div ng-repeat="(facetName, facetValues) in results.facets">{{ facetName }}
+            <div ng-repeat="facetValue in facetValues">
+                <label for="facet-{{facetValue.name}}">{{facetValue.name}} ({{facetValue.count}})</label>
+                <input id="facet-{{facetValue.name}}" type="checkbox" value="{{facetValue.name}}" ng-model="facetValue.selected"/>
+            </div>
+        </div>
+
+        <button ng-click="search();">Search</button>
+        <button ng-click="update();">Update</button>
+
+        <div>
+            <div ng-repeat="result in results.results">
+                <input type="checkbox" ng-model="result.highlighted">
+                <img ng-class="{highlighted: result.highlighted}" src="/photos/{{ result.filename }}" style="height: 200px; width:200px;" />
+                <photo-options photo="result"></photo-options>
+            </div>
+        </div>
+
+        <div>
+            {{ results }}
+        </div>
     </body>
 </html>

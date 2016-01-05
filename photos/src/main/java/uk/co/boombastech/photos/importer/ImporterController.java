@@ -24,7 +24,7 @@ public class ImporterController implements Controller {
 		} else {
 			response.withValue("test", "no update found");
 			response.withValue("more", "importer found update");
-			response.withValue("even", new Photo("filename.jpg", new Date(), null, null));
+			response.withValue("even", new Photo(null, 0, "filename.jpg", new Date(), null, null));
 		}
 	}
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
@@ -45,14 +46,14 @@ public class SolrServiceImpl<T> implements SolrService<T> {
 		SolrQuery solrQuery = new SolrQuery();
 		solrQuery.setQuery(createQueryString(searchCriteria));
 		facets.forEach(facet -> solrQuery.addFacetField(facet.name()));
+		solrQuery.setFacetMinCount(1);
 
-		searchCriteria.getSortByField().ifPresent(sortField -> solrQuery.addSort(sortField, SolrQuery.ORDER.asc));
+		searchCriteria.getSortByField().ifPresent(sortField -> solrQuery.addSort(sortField, ORDER.asc));
 
 		try {
-			return createSearchResults(solrClient.query(solrQuery));
+			return createSearchResults(solrClient.query(solrQuery), searchCriteria);
 		} catch (SolrServerException | IOException e) {
-
-			return new SearchResult<>(Collections.emptyList(), ArrayListMultimap.create(), 0);
+			return new SearchResult<T>(Collections.emptyList(), ArrayListMultimap.create(), 0);
 		}
 	}
 
@@ -75,7 +76,7 @@ public class SolrServiceImpl<T> implements SolrService<T> {
 		}
 	}
 
-	private SearchResult<T> createSearchResults(QueryResponse response) {
+	private SearchResult<T> createSearchResults(QueryResponse response, SearchCriteria<T> searchCriteria) {
 		List<T> results = newArrayList();
 
 		for (SolrDocument solrDocument : response.getResults()) {
@@ -86,10 +87,13 @@ public class SolrServiceImpl<T> implements SolrService<T> {
 		for (FacetField facetField : response.getFacetFields()) {
 			String name = facetField.getName();
 			for (Count facetFieldCount : facetField.getValues()) {
-				String facetOptionName = facetFieldCount.getName();
-				long facetOptionCount = facetFieldCount.getCount();
+				FacetValue facetValue = new FacetValueBuilder()
+						.withFacetOptionName(facetFieldCount.getName())
+						.withFacetOptionCount(facetFieldCount.getCount())
+						.withSelected(searchCriteria.getSearchCriteria().containsKey(name) && searchCriteria.getSearchCriteria().get(name).contains(facetFieldCount.getName()))
+						.build();
 
-				facets.put(name, new FacetValue(facetOptionName, facetOptionCount));
+				facets.put(name, facetValue);
 			}
 		}
 
