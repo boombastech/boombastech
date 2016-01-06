@@ -1,16 +1,32 @@
-<input type="text" ng-model="photo.filename"/>
-
-<div id="albums">
+<div class="row">
     <div ng-repeat="album in photo.albums">
-        {{album}}
-        <button ng-click="remove( photo.albums, $index)">X</button>
+        <div>
+            {{album}}
+            <button class="btn btn-default btn-xs" ng-click="remove( photo.albums, $index)">X</button>
+        </div>
     </div>
-    <input type="text" ng-model="newAlbum">
-    <button ng-click="addAlbum()">Add album</button>
+    <div class="col-lg-10">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="album name" ng-model="newAlbum">
+            <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="addAlbum()" type="button">Add</button>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="row">
     <div ng-repeat="category in photo.categories">
-        {{category}}
-        <button ng-click="remove( photo.categories, $index)">X</button>
+        <div>
+            {{category}}
+            <button class="btn btn-default btn-xs" ng-click="remove(photo.categories, $index)">X</button>
+        </div>
     </div>
-    <input type="text" ng-model="newCategory">
-    <button ng-click="addCategory()">Add category</button>
+    <div class="col-lg-10">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="category name" ng-model="newCategory">
+            <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="addCategory()" type="button">Add</button>
+            </span>
+        </div>
+    </div>
 </div>

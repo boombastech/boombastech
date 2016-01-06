@@ -1,6 +1,19 @@
 angular.module('photoApp')
-	.controller('PhotoController', ['$scope', 'PhotoService', function($scope, photoService) {
+	.controller('PhotoController', ['$scope', 'PhotoService', '$uibModal', function($scope, photoService, modal) {
 		$scope.results = {};
+
+		$scope.open = function(photo) {
+			modal.open({
+				templateUrl: 'photo-viewer.html',
+				controller: 'PhotoViewerController',
+				size: 'lg',
+				resolve: {
+					photo: function() {
+						return photo;
+					}
+				}
+			});
+		}
 
         $scope.search = function() {
         	var selectedFacets = {};

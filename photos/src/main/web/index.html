@@ -1,35 +1,55 @@
-<html ng-app="photoApp">
+<!DOCTYPE html>
+<html ng-app="photoApp" lang="en">
     <head>
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="css/main.css" />
+
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src="javascript/app.js"></script>
+        <script src="javascript/bootstrap.js"></script>
         <script src="javascript/controllers/photo-controller.js"></script>
+        <script src="javascript/controllers/photo-viewer-controller.js"></script>
         <script src="javascript/directives/photo-options.js"></script>
         <script src="javascript/services/photo-service.js"></script>
     </head>
+
     <body ng-controller="PhotoController" ng-init="search()">
-
-        <div ng-repeat="(facetName, facetValues) in results.facets">{{ facetName }}
-            <div ng-repeat="facetValue in facetValues">
-                <label for="facet-{{facetValue.name}}">{{facetValue.name}} ({{facetValue.count}})</label>
-                <input id="facet-{{facetValue.name}}" type="checkbox" value="{{facetValue.name}}" ng-model="facetValue.selected"/>
+        <div class="container">
+            <div id="facetPane" class="col-md-4">
+                <div ng-repeat="(facetName, facetValues) in results.facets">
+                    <h4>{{ facetName }}</h4>
+                    <div class="checkbox" ng-repeat="facetValue in facetValues">
+                        <label for="facet-{{facetValue.name}}">
+                            <input id="facet-{{facetValue.name}}" type="checkbox" value="{{facetValue.name}}" ng-model="facetValue.selected"/>
+                            {{facetValue.name}} ({{facetValue.count}})
+                        </label>
+                    </div>
+                </div>
+                <button class="btn btn-primary" ng-click="search();">Search</button>
+                <button class="btn btn-primary" ng-click="update();">Update</button>
             </div>
-        </div>
 
-        <button ng-click="search();">Search</button>
-        <button ng-click="update();">Update</button>
-
-        <div>
-            <div ng-repeat="result in results.results">
-                <input type="checkbox" ng-model="result.highlighted">
-                <img ng-class="{highlighted: result.highlighted}" src="/photos/{{ result.filename }}" style="height: 200px; width:200px;" />
-                <photo-options photo="result"></photo-options>
+            <div id="resultsPane" class="col-md-8">
+                <div class="row">
+                    <div class="col-md-3" ng-repeat="result in results.results">
+                        <div class="row">
+                            <img ng-class="{highlighted: result.highlighted}" src="/photos/{{ result.filename }}" class="img-thumbnail" ng-click="open(result)" />
+                            <input type="checkbox" ng-model="result.highlighted" style="position:absolute; top:5px;right:8px;">
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div>
-            {{ results }}
+            <div class="col-md-12">
+                {{ results }}
+            </div>
         </div>
     </body>
 </html>

@@ -1,1 +1,1 @@
-angular.module('photoApp', []);
+angular.module('photoApp', ['ui.bootstrap']);
