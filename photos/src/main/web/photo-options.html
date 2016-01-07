@@ -2,7 +2,9 @@
     <div ng-repeat="album in photo.albums">
         <div>
             {{album}}
-            <button class="btn btn-default btn-xs" ng-click="remove( photo.albums, $index)">X</button>
+            <button class="btn btn-default btn-xs" ng-click="remove( photo.albums, $index)">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
         </div>
     </div>
     <div class="col-lg-10">
@@ -18,7 +20,9 @@
     <div ng-repeat="category in photo.categories">
         <div>
             {{category}}
-            <button class="btn btn-default btn-xs" ng-click="remove(photo.categories, $index)">X</button>
+            <button class="btn btn-default btn-xs" ng-click="remove(photo.categories, $index)">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
         </div>
     </div>
     <div class="col-lg-10">
