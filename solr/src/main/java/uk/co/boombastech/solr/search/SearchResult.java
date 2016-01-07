@@ -11,11 +11,13 @@ public class SearchResult<T> {
 	private final List<T> results;
 	private final Map<String, Collection<FacetValue>> facets;
 	private final long numberOfResults;
+	private final Pagination pagination;
 
-	public SearchResult(List<T> results, Multimap<String, FacetValue> facets, long numberOfResults) {
+	public SearchResult(List<T> results, Multimap<String, FacetValue> facets, long numberOfResults, Pagination pagination) {
 		this.results = results;
 		this.facets = facets.asMap();
 		this.numberOfResults = numberOfResults;
+		this.pagination = pagination;
 	}
 
 	public List<T> getResults() {
@@ -28,5 +30,9 @@ public class SearchResult<T> {
 
 	public long getNumberOfResults() {
 		return numberOfResults;
+	}
+
+	public Pagination getPagination() {
+		return pagination;
 	}
 }

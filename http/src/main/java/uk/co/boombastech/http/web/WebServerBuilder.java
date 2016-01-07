@@ -32,4 +32,8 @@ public class WebServerBuilder implements Builder<WebServer> {
 		server.setHandler(handlerCollection);
 		return new WebServer(server);
 	}
+
+	public static WebServerBuilder webServer() {
+		return new WebServerBuilder();
+	}
 }

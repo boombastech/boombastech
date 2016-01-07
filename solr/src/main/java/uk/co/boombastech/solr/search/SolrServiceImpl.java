@@ -56,7 +56,7 @@ public class SolrServiceImpl<T> implements SolrService<T> {
 		try {
 			return createSearchResults(solrClient.query(solrQuery), searchCriteria);
 		} catch (SolrServerException | IOException e) {
-			return new SearchResult<T>(Collections.emptyList(), ArrayListMultimap.create(), 0);
+			return new SearchResult<T>(Collections.emptyList(), ArrayListMultimap.create(), 0, null);
 		}
 	}
 
@@ -100,8 +100,13 @@ public class SolrServiceImpl<T> implements SolrService<T> {
 			}
 		}
 
-		return new SearchResult<>(results, facets, response.getResults().getNumFound());
+
+		Pagination pagination = new Pagination(searchCriteria, response.getResults().getNumFound());
+		SearchResult<T> tSearchResult = new SearchResult<>(results, facets, response.getResults().getNumFound(), pagination);
+		return tSearchResult;
 	}
+
+
 
 	private String createQueryString(SearchCriteria<T> searchCriteria) {
 		List<String> queries = newArrayList();

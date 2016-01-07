@@ -8,10 +8,11 @@ import uk.co.boombastech.http.web.WebServerBuilder;
 import static uk.co.boombastech.http.handlers.ResourceHandlerBuilder.resourceHandler;
 import static uk.co.boombastech.http.handlers.ServletContextHandlerBuilder.servletContextHandler;
 import static uk.co.boombastech.http.injection.ListenerBuilder.listener;
+import static uk.co.boombastech.http.web.WebServerBuilder.webServer;
 
 public class PhotoWebApp {
 	public static void main(String[] args) throws Exception {
-		WebServer webServer = new WebServerBuilder()
+		WebServer webServer = webServer()
 				.withPortNumber(8080)
 				.withHandler(servletContextHandler()
 						.withContextPath("/api")
