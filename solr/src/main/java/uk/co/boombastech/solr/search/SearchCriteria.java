@@ -1,7 +1,8 @@
 package uk.co.boombastech.solr.search;
 
 import com.google.common.collect.Multimap;
-import com.sun.deploy.util.StringUtils;
+import org.apache.solr.common.StringUtils;
+
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -78,8 +79,9 @@ public class SearchCriteria<T> {
 		queryParameters.add("page=" + pageNumber);
 
 		if (!queryParameters.isEmpty()) {
-			return "?" + StringUtils.join(queryParameters, "&");
+			return "?" + String.join("&", queryParameters);
 		}
+
 
 		return "";
 	}
