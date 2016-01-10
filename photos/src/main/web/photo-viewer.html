@@ -2,9 +2,13 @@
     <h3 class="modal-title">{{photo.filename}}</h3>
 </div>
 
-<div class="modal-body">
-    <img src="/photos/{{ photo.filename }}" class="img-rounded" style="max-width:100%;" />
-    <photo-options photo="photo"></photo-options>
+<div class="modal-body row">
+    <div class="col-lg-4">
+        <photo-options photo="photo"></photo-options>
+    </div>
+    <div class="col-lg-8">
+        <img src="/photos/{{ photo.filename }}" class="img-rounded" style="max-width:100%;" />
+    </div>
 </div>
 
 <div class="modal-footer">

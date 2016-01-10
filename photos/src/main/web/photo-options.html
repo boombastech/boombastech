@@ -1,35 +1,43 @@
 <div class="row">
-    <div ng-repeat="album in photo.albums">
-        <div>
-            {{album}}
-            <button class="btn btn-default btn-xs" ng-click="remove( photo.albums, $index)">
-                <span class="glyphicon glyphicon-trash"></span>
-            </button>
-        </div>
-    </div>
     <div class="col-lg-10">
+        <h3>Albums</h3>
+        <div ng-repeat="album in photo.albums">
+            <div>
+                {{album}}
+                <button class="btn btn-default btn-xs" ng-click="remove( photo.albums, $index)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </div>
+        </div>
+
         <div class="input-group">
             <input type="text" class="form-control" placeholder="album name" ng-model="newAlbum">
             <span class="input-group-btn">
-                <button class="btn btn-default" ng-click="addAlbum()" type="button">Add</button>
+                <button class="btn btn-default" ng-click="addAlbum()" type="button">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
             </span>
         </div>
     </div>
 </div>
 <div class="row">
-    <div ng-repeat="category in photo.categories">
-        <div>
-            {{category}}
-            <button class="btn btn-default btn-xs" ng-click="remove(photo.categories, $index)">
-                <span class="glyphicon glyphicon-trash"></span>
-            </button>
-        </div>
-    </div>
     <div class="col-lg-10">
+        <h3>Categories</h3>
+        <div ng-repeat="category in photo.categories">
+            <div>
+                {{category}}
+                <button class="btn btn-default btn-xs" ng-click="remove(photo.categories, $index)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </div>
+        </div>
+
         <div class="input-group">
             <input type="text" class="form-control" placeholder="category name" ng-model="newCategory">
             <span class="input-group-btn">
-                <button class="btn btn-default" ng-click="addCategory()" type="button">Add</button>
+                <button class="btn btn-default" ng-click="addCategory()" type="button">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
             </span>
         </div>
     </div>
