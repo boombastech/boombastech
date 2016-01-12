@@ -14,15 +14,16 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src="javascript/app.js"></script>
         <script src="javascript/bootstrap.js"></script>
-        <script src="javascript/controllers/photo-controller.js"></script>
+        <script src="javascript/controllers/results-controller.js"></script>
+        <script src="javascript/controllers/search-controller.js"></script>
         <script src="javascript/controllers/photo-viewer-controller.js"></script>
         <script src="javascript/directives/photo-options.js"></script>
         <script src="javascript/services/photo-service.js"></script>
     </head>
 
-    <body ng-controller="PhotoController" ng-init="search()">
+    <body>
         <div class="container">
-            <div id="facetPane" class="col-md-4">
+            <div id="facetPane" class="col-md-4" ng-controller="SearchController" ng-init="search()">
                 <div ng-repeat="(facetName, facetValues) in results.facets">
                     <h4>{{ facetName }}</h4>
                     <div class="checkbox" ng-repeat="facetValue in facetValues">
@@ -36,7 +37,7 @@
                 <button class="btn btn-primary" ng-click="update();">Update</button>
             </div>
 
-            <div id="resultsPane" class="col-md-8">
+            <div id="resultsPane" class="col-md-8" ng-controller="ResultsController">
                 <div class="row">
                     <div class="col-md-3" ng-repeat="result in results.results">
                         <div class="row">
