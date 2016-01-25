@@ -25,6 +25,7 @@ public class SearchController implements Controller {
 	@Override
 	public void execute(Request request, Response response) {
 		SearchCriteria<Photo> searchCriteria = new SearchCriteria<>();
+		searchCriteria.setNumberOfResults(6);
 
 		for (String parameter : request.getQueryParameters()) {
 			if (facets.contains(parameter)) {

@@ -12,7 +12,7 @@ import java.util.Optional;
 import static com.google.common.collect.ArrayListMultimap.create;
 import static com.google.common.collect.Lists.newArrayList;
 
-public class SearchCriteria<T> {
+public class SearchCriteria<T> implements Cloneable {
 
 	private static final int DEFAULT_NUMBER_OF_RESULTS = 10;
 	private static final int DEFAULT_PAGE_NUMBER = 1;
@@ -24,6 +24,13 @@ public class SearchCriteria<T> {
 
 	public SearchCriteria() {
 		searchCriteria = create();
+	}
+
+	public SearchCriteria(Multimap<String, String> searchCriteria, String sortByField, int numberOfResults, int pageNumber) {
+		this.searchCriteria = searchCriteria;
+		this.sortByField = sortByField;
+		this.numberOfResults = numberOfResults;
+		this.pageNumber = pageNumber;
 	}
 
 	public SearchCriteria<T> withFacet(String facet, String value) {
@@ -57,32 +64,5 @@ public class SearchCriteria<T> {
 
 	public void setPageNumber(int pageNumber) {
 		this.pageNumber = pageNumber;
-	}
-
-	public String createUrlFromSearchCriteriaForPageNumber(int pageNumber) {
-		List<String> queryParameters = newArrayList();
-
-		if (!searchCriteria.isEmpty()) {
-			for (String facet : searchCriteria.keySet()) {
-				for (String value : searchCriteria.get(facet)) {
-					queryParameters.add(facet + "=" + value);
-				}
-			}
-		}
-
-		getSortByField().ifPresent(sortField -> queryParameters.add("sort=" + sortField));
-
-		if (numberOfResults != DEFAULT_NUMBER_OF_RESULTS) {
-			queryParameters.add("size=" + numberOfResults);
-		}
-
-		queryParameters.add("page=" + pageNumber);
-
-		if (!queryParameters.isEmpty()) {
-			return "?" + String.join("&", queryParameters);
-		}
-
-
-		return "";
 	}
 }
