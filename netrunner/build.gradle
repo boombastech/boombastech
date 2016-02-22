@@ -1,0 +1,8 @@
+sourceSets {
+    test {
+        java {
+            srcDir 'src/test/unit'
+            srcDir 'src/test/java'
+        }
+    }
+}

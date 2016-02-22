@@ -51,4 +51,8 @@ public class PhotoBuilder implements Builder<Photo> {
 	public Photo build() {
 		return new Photo(id, version, filename, date, albums, categories);
 	}
+
+	public static PhotoBuilder newPhoto() {
+		return new PhotoBuilder();
+	}
 }

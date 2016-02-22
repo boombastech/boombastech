@@ -31,4 +31,8 @@ public class SearchResult<T> {
 	public long getNumberOfResults() {
 		return numberOfResults;
 	}
+
+	public Pagination<T> getPagination() {
+		return pagination;
+	}
 }

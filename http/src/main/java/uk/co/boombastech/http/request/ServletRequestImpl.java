@@ -45,7 +45,6 @@ public class ServletRequestImpl implements Request {
 		for (String queryParam : queryParams) {
 			String[] split = queryParam.split("=");
 			parameters.put(split[0], split[1]);
-
 		}
 
 		return new Parameters(parameters.asMap());

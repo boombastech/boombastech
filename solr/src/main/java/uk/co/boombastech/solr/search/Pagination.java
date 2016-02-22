@@ -1,9 +1,9 @@
 package uk.co.boombastech.solr.search;
 
-import java.util.List;
+import java.util.Map;
 
 public class Pagination<T> {
-    private final List<SearchCriteria<T>> pagination;
+    private final Map<Integer, SearchCriteria<T>> pagination;
 
 
     public Pagination(SearchCriteria<T> currentPage, long totalNumberResults) {

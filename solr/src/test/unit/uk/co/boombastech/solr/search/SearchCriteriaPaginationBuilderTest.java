@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.collect.ArrayListMultimap.create;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +23,7 @@ public class SearchCriteriaPaginationBuilderTest {
     public void shouldHandleCaseWhereTotalNumberOfResultsIsLessThanResultsPerPage() throws Exception {
         builder = new SearchCriteriaPaginationBuilder();
 
-        List<SearchCriteria> pagination = builder.from(new SearchCriteria(searchCriteriaMap, sortByField, numberOfResults, pageNumber))
+        Map<Integer, SearchCriteria> pagination = builder.from(new SearchCriteria(searchCriteriaMap, sortByField, numberOfResults, pageNumber))
                 .withTotalResults(1)
                 .build();
 
@@ -39,13 +40,13 @@ public class SearchCriteriaPaginationBuilderTest {
     public void shouldHandleCaseWhereTotalNumberOfResultsIsMoreThanResultsPerPage() throws Exception {
         builder = new SearchCriteriaPaginationBuilder();
 
-        List<SearchCriteria> pagination = builder.from(new SearchCriteria(searchCriteriaMap, sortByField, numberOfResults, pageNumber))
+        Map<Integer, SearchCriteria> pagination = builder.from(new SearchCriteria(searchCriteriaMap, sortByField, numberOfResults, pageNumber))
                 .withTotalResults(73)
                 .build();
 
         assertThat(pagination).hasSize(8);
 
-        Iterator<SearchCriteria> iterator = pagination.iterator();
+        Iterator<SearchCriteria> iterator = pagination.values().iterator();
         int pageNumber = 1;
         while (iterator.hasNext()) {
             SearchCriteria searchCriteria = iterator.next();

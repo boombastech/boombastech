@@ -16,11 +16,6 @@ public class WebServerBuilder implements Builder<WebServer> {
 		return this;
 	}
 
-	public WebServerBuilder withHandler(Handler handler) {
-		handlerCollection.addHandler(handler);
-		return this;
-	}
-
 	public WebServerBuilder withHandler(HandlerBuilder<?, ? extends Handler> handler) {
 		handlerCollection.addHandler(handler.build());
 		return this;

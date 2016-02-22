@@ -25,7 +25,7 @@ public class SearchController implements Controller {
 	@Override
 	public void execute(Request request, Response response) {
 		SearchCriteria<Photo> searchCriteria = new SearchCriteria<>();
-		searchCriteria.setNumberOfResults(6);
+		searchCriteria.setNumberOfResults(2);
 
 		for (String parameter : request.getQueryParameters()) {
 			if (facets.contains(parameter)) {
@@ -53,8 +53,8 @@ public class SearchController implements Controller {
 			} catch (NumberFormatException e) {}
 		}
 
-		SearchResult query = solrService.search(searchCriteria);
+		SearchResult searchResult = solrService.search(searchCriteria);
 
-		response.withValue(query);
+		response.withValue(searchResult);
 	}
 }

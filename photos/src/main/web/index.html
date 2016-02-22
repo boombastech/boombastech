@@ -16,6 +16,7 @@
         <script src="javascript/bootstrap.js"></script>
         <script src="javascript/controllers/results-controller.js"></script>
         <script src="javascript/controllers/search-controller.js"></script>
+        <script src="javascript/controllers/pagination-controller.js"></script>
         <script src="javascript/controllers/photo-viewer-controller.js"></script>
         <script src="javascript/directives/photo-options.js"></script>
         <script src="javascript/services/photo-service.js"></script>
@@ -33,8 +34,8 @@
                         </label>
                     </div>
                 </div>
-                <button class="btn btn-primary" ng-click="search();">Search</button>
-                <button class="btn btn-primary" ng-click="update();">Update</button>
+                <button class="btn btn-primary" ng-click="search()">Search</button>
+                <button class="btn btn-primary" ng-click="update()">Update</button>
             </div>
 
             <div id="resultsPane" class="col-md-8" ng-controller="ResultsController">
@@ -47,7 +48,13 @@
                     </div>
                 </div>
             </div>
-
+            <div id="pagination" class="col-md-12" ng-controller="PaginationController">
+                <ul>
+                    <li ng-repeat="(key,value) in results.pagination.pagination">
+                        <span ng-click="changePage(key)">{{ key }}</span>
+                    </li>
+                </ul>
+            </div>
             <div class="col-md-12">
                 {{ results }}
             </div>

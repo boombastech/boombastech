@@ -1,6 +1,7 @@
 package uk.co.boombastech.http.injection;
 
 import com.google.inject.Module;
+import uk.co.boombastech.config.ApplicationConfig;
 import uk.co.boombastech.utils.Builder;
 
 import java.util.List;

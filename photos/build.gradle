@@ -1,3 +1,5 @@
+apply plugin: 'jetty'
+
 dependencies {
 	compile project(":common")
 	compile project(":solr")
@@ -15,3 +17,4 @@ sourceSets {
 		}
 	}
 }
+

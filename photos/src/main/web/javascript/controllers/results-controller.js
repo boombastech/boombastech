@@ -1,5 +1,5 @@
 angular.module('photoApp')
-	.controller('ResultsController', ['$scope', '$rootScope', 'PhotoService', '$uibModal', function($scope, $rootScope, photoService, modal) {
+	.controller('ResultsController', ['$scope', '$rootScope', '$uibModal', function($scope, $rootScope, modal) {
 
 		$scope.open = function(photo) {
 			modal.open({

@@ -28,9 +28,19 @@ angular.module('photoApp')
 				}
 			}
 
-        	photoService.get(selectedFacets, successCallback, errorCallback);
+			selectedFacets['page'] = $rootScope.pageNumber;
 
+        	photoService.get(selectedFacets, successCallback, errorCallback);
         }
+
+        $rootScope.$watch(
+            function() {
+                return $rootScope.pageNumber;
+            },
+            function change(oldValue,newValue) {
+                $scope.search();
+            }
+        );
 
         $scope.update = function() {
         	photoService.update($rootScope.results.results,
