@@ -5,7 +5,17 @@ angular.module('photoApp')
 			scope: {
 				photo: '=photo'
 			},
-			controller: ['$scope', function($scope) {
+			controller: ['$scope', 'FacetService', function($scope, facetService) {
+			    $scope.facetLookup = {};
+
+				var successCallback = function(response) {
+				    $scope.facetLookup = response.data.facets;
+				};
+
+				var errorCallback = function(response) {};
+
+				facetService.get(successCallback, errorCallback);
+
 				$scope.remove = function(array, index) {
 					array.splice(index, 1);
 				};
@@ -18,7 +28,7 @@ angular.module('photoApp')
 				$scope.addCategory = function() {
 					$scope.photo.categories.push($scope.newCategory);
 					$scope.newCategory = '';
-				}
+				};
 			}]
 		};
 	});

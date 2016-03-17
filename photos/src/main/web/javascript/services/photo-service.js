@@ -1,5 +1,5 @@
 angular.module('photoApp')
-	.factory('PhotoService', ['$http', function($http) {
+    .factory('PhotoService', ['$http', '$cacheFactory', function($http, cacheFactory) {
 		return {
 			get: function(params, successCallback, errorCallback) {
 				$http({
@@ -15,7 +15,11 @@ angular.module('photoApp')
 					url: '/api/update',
 					data: photos,
 
-				}).then(successCallback, errorCallback);
+				}).then(function(response) {
+				    cacheFactory.get('$http').remove('/api/search');
+				    successCallback(response);
+				}, errorCallback);
+				}
 			}
-		};
-	}]);
+		}
+	]);

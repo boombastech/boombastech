@@ -1,44 +1,50 @@
 <div class="row">
     <div class="col-lg-10">
         <h3>Albums</h3>
-        <div ng-repeat="album in photo.albums">
-            <div>
-                {{album}}
-                <button class="btn btn-default btn-xs" ng-click="remove( photo.albums, $index)">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </button>
-            </div>
-        </div>
 
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="album name" ng-model="newAlbum">
+        <div class="input-group" ng-repeat="album in photo.albums">
+            <input type="text" class="form-control" value="{{album}}" readonly>
             <span class="input-group-btn">
-                <button class="btn btn-default" ng-click="addAlbum()" type="button">
-                    <span class="glyphicon glyphicon-plus"></span>
+                <button class="btn btn-default" ng-click="remove( photo.albums, $index)" type="button">
+                    <span class="glyphicon glyphicon-trash"></span>
                 </button>
             </span>
         </div>
+
+        <form name="addAlbumForm">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="album name" ng-model="newAlbum" name="newAlbum" required unique="photo.albums" uib-typeahead="album for album in facetLookup.album | filter:$viewValue | limitTo:4">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" ng-click="addAlbum()" type="button" ng-disabled="addAlbumForm.$invalid">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </span>
+            </div>
+            <span ng-show="addAlbumForm.newAlbum.$error.uniqueValue">This photo already has that album.</span>
+        </form>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-10">
         <h3>Categories</h3>
-        <div ng-repeat="category in photo.categories">
-            <div>
-                {{category}}
-                <button class="btn btn-default btn-xs" ng-click="remove(photo.categories, $index)">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </button>
-            </div>
-        </div>
-
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="category name" ng-model="newCategory">
+        <div class="input-group" ng-repeat="category in photo.categories">
+            <input type="text" class="form-control" value="{{category}}" readonly>
             <span class="input-group-btn">
-                <button class="btn btn-default" ng-click="addCategory()" type="button">
-                    <span class="glyphicon glyphicon-plus"></span>
+                <button class="btn btn-default" ng-click="remove( photo.categories, $index)" type="button">
+                    <span class="glyphicon glyphicon-trash"></span>
                 </button>
             </span>
         </div>
+        <form name="addCategoryForm">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="category name" ng-model="newCategory" name="newCategory" required unique="photo.categories" uib-typeahead="category for category in facetLookup.category | filter:$viewValue | limitTo:4">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" ng-click="addCategory()" type="button" ng-disabled="addCategoryForm.$invalid">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </span>
+            </div>
+            <span ng-show="addCategoryForm.newCategory.$error.uniqueValue">This photo already has that category.</span>
+        </form>
     </div>
 </div>

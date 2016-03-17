@@ -1,6 +1,7 @@
 package uk.co.boombastech.solr.search;
 
 import com.google.common.collect.Multimap;
+import uk.co.boombastech.solr.search.facets.FacetValue;
 
 import java.util.Collection;
 import java.util.List;

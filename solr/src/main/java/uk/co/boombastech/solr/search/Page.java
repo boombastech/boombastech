@@ -1,19 +1,25 @@
 package uk.co.boombastech.solr.search;
 
-public class Page {
+public class Page<T> {
 	private final int pageNumber;
-	private final String link;
+	private final SearchCriteria<T> searchCriteria;
+	private final boolean active;
 
-	public Page(int pageNumber, String link) {
+	public Page(int pageNumber, SearchCriteria searchCriteria, boolean active) {
 		this.pageNumber = pageNumber;
-		this.link = link;
+		this.searchCriteria = searchCriteria;
+		this.active = active;
 	}
 
 	public int getPageNumber() {
 		return pageNumber;
 	}
 
-	public String getLink() {
-		return link;
+	public SearchCriteria<T> getSearchCriteria() {
+		return searchCriteria;
+	}
+
+	public boolean isActive() {
+		return active;
 	}
 }

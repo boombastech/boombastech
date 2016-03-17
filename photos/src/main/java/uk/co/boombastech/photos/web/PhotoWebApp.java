@@ -1,7 +1,7 @@
 package uk.co.boombastech.photos.web;
 
 import uk.co.boombastech.photos.injection.PhotosModule;
-import uk.co.boombastech.photos.injection.SolrModule;
+import uk.co.boombastech.solr.injection.SolrModule;
 
 import static uk.co.boombastech.http.handlers.ResourceHandlerBuilder.resourceHandler;
 import static uk.co.boombastech.http.handlers.ServletContextHandlerBuilder.servletContextHandler;

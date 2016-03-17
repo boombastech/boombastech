@@ -3,7 +3,7 @@ package uk.co.boombastech.photos.injection;
 import org.apache.solr.client.solrj.SolrClient;
 import uk.co.boombastech.photos.models.Photo;
 import uk.co.boombastech.photos.importer.PhotoSolrDocumentConverter;
-import uk.co.boombastech.solr.search.Facets;
+import uk.co.boombastech.solr.search.facets.Facets;
 import uk.co.boombastech.solr.search.SolrService;
 import uk.co.boombastech.solr.search.SolrServiceImpl;
 

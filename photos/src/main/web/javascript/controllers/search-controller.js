@@ -2,35 +2,46 @@ angular.module('photoApp')
 	.controller('SearchController', ['$scope', '$rootScope', 'PhotoService', function($scope, $rootScope, photoService) {
 
         $rootScope.results = {};
+        $rootScope.pageNumber = 1;
 
         $scope.search = function() {
-        	var selectedFacets = {};
+        	$rootScope.pageNumber = 1;
+        	search();
+        };
 
-			if ($rootScope.results.hasOwnProperty("facets")) {
-				for (var facetName in $rootScope.results.facets) {
-					if ($rootScope.results.facets.hasOwnProperty(facetName)) {
-						var facetsToSelect = [];
+        $scope.searchInit= function() {
+            $scope.search();
 
-						for (var facetValue in $rootScope.results.facets[facetName]) {
+        };
 
-							var name = $rootScope.results.facets[facetName][facetValue].name;
-							var selected = $rootScope.results.facets[facetName][facetValue].selected;
+        var search = function() {
+            var selectedFacets = {};
 
-							if (selected) {
-								facetsToSelect.push(name);
-							}
-						}
+            if ($rootScope.results.hasOwnProperty("facets")) {
+                for (var facetName in $rootScope.results.facets) {
+                    if ($rootScope.results.facets.hasOwnProperty(facetName)) {
+                        var facetsToSelect = [];
 
-						if (facetsToSelect.length !== 0) {
-							selectedFacets[facetName] = facetsToSelect;
-						}
-					}
-				}
-			}
+                        for (var facetValue in $rootScope.results.facets[facetName]) {
 
-			selectedFacets['page'] = $rootScope.pageNumber;
+                            var name = $rootScope.results.facets[facetName][facetValue].name;
+                            var selected = $rootScope.results.facets[facetName][facetValue].selected;
 
-        	photoService.get(selectedFacets, successCallback, errorCallback);
+                            if (selected) {
+                                facetsToSelect.push(name);
+                            }
+                        }
+
+                        if (facetsToSelect.length !== 0) {
+                            selectedFacets[facetName] = facetsToSelect;
+                        }
+                    }
+                }
+            }
+
+            selectedFacets['page'] = $rootScope.pageNumber;
+
+            photoService.get(selectedFacets, successCallback, errorCallback);
         }
 
         $rootScope.$watch(
@@ -38,7 +49,7 @@ angular.module('photoApp')
                 return $rootScope.pageNumber;
             },
             function change(oldValue,newValue) {
-                $scope.search();
+                search();
             }
         );
 
@@ -46,7 +57,6 @@ angular.module('photoApp')
         	photoService.update($rootScope.results.results,
 				function() {
 					$scope.search();
-					console.log("success");
 				},
 				function() {
 					console.log("error")

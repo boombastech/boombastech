@@ -1,24 +1,22 @@
 package uk.co.boombastech.http.request;
 
-import com.google.gson.Gson;
+import uk.co.boombastech.json.JsonMarshaller;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Maps.newHashMap;
 
 public class ServletResponseImpl implements Response {
 
 	private final HttpServletResponse response;
-	private final Gson gson;
+	private final JsonMarshaller jsonMarshaller;
 	private final List<Object> responseObjects;
 
-	public ServletResponseImpl(HttpServletResponse response, Gson gson) {
+	public ServletResponseImpl(HttpServletResponse response, JsonMarshaller jsonMarshaller) {
 		this.response = response;
-		this.gson = gson;
+		this.jsonMarshaller = jsonMarshaller;
 		responseObjects = newArrayList();
 	}
 
@@ -45,9 +43,9 @@ public class ServletResponseImpl implements Response {
 		try {
 			String responseString;
 			if (responseObjects.size() == 1) {
-				responseString = gson.toJson(responseObjects.get(0));
+				responseString = jsonMarshaller.toJson(responseObjects.get(0));
 			} else {
-				responseString = gson.toJson(responseObjects);
+				responseString = jsonMarshaller.toJson(responseObjects);
 			}
 			response.getOutputStream().print(responseString);
 		} catch (IOException e) {

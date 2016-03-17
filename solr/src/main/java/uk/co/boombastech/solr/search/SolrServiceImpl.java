@@ -12,6 +12,9 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import uk.co.boombastech.solr.converters.SolrDocumentConverter;
+import uk.co.boombastech.solr.search.facets.FacetValue;
+import uk.co.boombastech.solr.search.facets.FacetValueBuilder;
+import uk.co.boombastech.solr.search.facets.Facets;
 
 import javax.inject.Inject;
 import java.io.IOException;
