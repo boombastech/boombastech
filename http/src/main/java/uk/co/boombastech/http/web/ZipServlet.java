@@ -13,43 +13,25 @@ import java.util.zip.ZipOutputStream;
 @Singleton
 public class ZipServlet extends HttpServlet {
 	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
+	public static final String PATH = "./photos/src/dev-photos";
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			//
-			// The path below is the root directory of data to be
-			// compressed.
-			//
-			String path = "./photos/src/dev-photos";
-
-			File directory = new File(path);
+			File directory = new File(PATH);
 			String[] files = directory.list();
 
-			//
-			// Checks to see if the directory contains some files.
-			//
 			if (files != null && files.length > 0) {
 
-				//
-				// Call the zipFiles method for creating a zip stream.
-				//
 				byte[] zip = zipFiles(directory, files);
 
-				//
-				// Sends the response back to the user / browser. The
-				// content for zip file type is "application/zip". We
-				// also set the content disposition as attachment for
-				// the browser to show a dialog that will let user
-				// choose what action will he do to the sent content.
-				//
-				ServletOutputStream sos = response.getOutputStream();
+				ServletOutputStream servletOutputStream = response.getOutputStream();
 				response.setContentType("application/zip");
 				response.setHeader("Content-Disposition", "attachment; filename=\"DATA.ZIP\"");
 
-				sos.write(zip);
-				sos.flush();
+				servletOutputStream.write(zip);
+				servletOutputStream.flush();
 			}
 		}
 		catch (Exception e) {
@@ -57,34 +39,34 @@ public class ZipServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * Compress the given directory with all its files.
-	 */
 	private byte[] zipFiles(File directory, String[] files) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ZipOutputStream zos = new ZipOutputStream(baos);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
 		byte bytes[] = new byte[2048];
 
 		for (String fileName : files) {
-			FileInputStream fis = new FileInputStream(directory.getPath() +
-					FILE_SEPARATOR + fileName);
-			BufferedInputStream bis = new BufferedInputStream(fis);
-
-			zos.putNextEntry(new ZipEntry(fileName));
-
-			int bytesRead;
-			while ((bytesRead = bis.read(bytes)) != -1) {
-				zos.write(bytes, 0, bytesRead);
-			}
-			zos.closeEntry();
-			bis.close();
-			fis.close();
+			zipFile(directory, zipOutputStream, bytes, fileName);
 		}
-		zos.flush();
-		baos.flush();
-		zos.close();
-		baos.close();
+		zipOutputStream.flush();
+		byteArrayOutputStream.flush();
+		zipOutputStream.close();
+		byteArrayOutputStream.close();
 
-		return baos.toByteArray();
+		return byteArrayOutputStream.toByteArray();
+	}
+
+	private void zipFile(File directory, ZipOutputStream zipOutputStream, byte[] bytes, String fileName) throws IOException {
+		FileInputStream fileInputStream = new FileInputStream(directory.getPath() + FILE_SEPARATOR + fileName);
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+
+		zipOutputStream.putNextEntry(new ZipEntry(fileName));
+
+		int bytesRead;
+		while ((bytesRead = bufferedInputStream.read(bytes)) != -1) {
+			zipOutputStream.write(bytes, 0, bytesRead);
+		}
+		zipOutputStream.closeEntry();
+		bufferedInputStream.close();
+		fileInputStream.close();
 	}
 }

@@ -14,5 +14,5 @@ public interface Request {
 	Collection<String> getPostParameter(String parameter);
 	Optional<String> getHeader(Header header);
 	Optional<String> getCookie(Cookie cookie);
-	List<Map> getContent();
+	Map<String, Map> getContent();
 }

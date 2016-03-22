@@ -24,9 +24,10 @@ public class UpdateController implements Controller {
 
 	@Override
 	public void execute(Request request, Response response) {
-		List<Map> content = request.getContent();
+		Map<String,Map> content = request.getContent();
 
-		for (Map map : content) {
+		for (String key : content.keySet()) {
+			Map map = content.get(key);
 			solrService.update(photoCreator.fromMap(map));
 		}
 

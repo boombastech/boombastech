@@ -24,7 +24,7 @@ import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
-public class SolrServiceImpl<T> implements SolrService<T> {
+public class SolrServiceImpl<T extends Document> implements SolrService<T> {
 
 	private static final String OR = " OR ";
 	private static final String AND = " AND ";

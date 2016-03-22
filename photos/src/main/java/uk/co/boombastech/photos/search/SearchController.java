@@ -6,8 +6,11 @@ import uk.co.boombastech.http.request.Response;
 import uk.co.boombastech.photos.models.Photo;
 import uk.co.boombastech.solr.search.*;
 import uk.co.boombastech.solr.search.facets.Facets;
+import uk.co.boombastech.utils.NumberUtils;
 
 import javax.inject.Inject;
+import javax.swing.text.NumberFormatter;
+import java.util.Optional;
 
 public class SearchController implements Controller {
 
@@ -30,9 +33,7 @@ public class SearchController implements Controller {
 
 		for (String parameter : request.getQueryParameters()) {
 			if (facets.contains(parameter)) {
-				for (String value : request.getQueryParameter(parameter)) {
-					searchCriteria.withFacet(parameter, value);
-				}
+				request.getQueryParameter(parameter).stream().forEach(value -> searchCriteria.withFacet(parameter, value));
 			}
 		}
 
@@ -41,17 +42,13 @@ public class SearchController implements Controller {
 		}
 
 		if (!request.getQueryParameter(SIZE).isEmpty()) {
-			try {
-				int pageNumber = Integer.parseInt(request.getQueryParameter(SIZE).iterator().next());
-				searchCriteria.setNumberOfResults(pageNumber);
-			} catch (NumberFormatException e) {}
+			Optional<Integer> integerOptional = NumberUtils.parseInteger(request.getQueryParameter(SIZE).iterator().next());
+			integerOptional.ifPresent(integer -> searchCriteria.setNumberOfResults(integer));
 		}
 
 		if (!request.getQueryParameter(PAGE).isEmpty()) {
-			try {
-				int pageNumber = Integer.parseInt(request.getQueryParameter(PAGE).iterator().next());
-				searchCriteria.setPageNumber(pageNumber);
-			} catch (NumberFormatException e) {}
+			Optional<Integer> integerOptional = NumberUtils.parseInteger(request.getQueryParameter(PAGE).iterator().next());
+			integerOptional.ifPresent(integer -> searchCriteria.setPageNumber(integer));
 		}
 
 		SearchResult searchResult = solrService.search(searchCriteria);

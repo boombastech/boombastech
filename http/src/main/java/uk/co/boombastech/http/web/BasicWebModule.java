@@ -9,8 +9,8 @@ import uk.co.boombastech.http.injection.RequestProvider;
 import uk.co.boombastech.http.injection.ResponseProvider;
 import uk.co.boombastech.http.routes.ActiveRoute;
 import uk.co.boombastech.http.routes.ControllerServlet;
-import uk.co.boombastech.json.JsonMarshaller;
-import uk.co.boombastech.json.JsonMarshallerGson;
+import uk.co.boombastech.http.json.JsonMarshaller;
+import uk.co.boombastech.http.json.JsonMarshallerGson;
 
 public class BasicWebModule extends ServletModule {
 	@Override

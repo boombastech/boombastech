@@ -7,21 +7,28 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class SearchResult<T> {
+import static com.google.common.collect.Maps.newHashMap;
 
-	private final List<T> results;
+public class SearchResult<T extends Document> {
+
+	private final Map<String, T> results;
 	private final Map<String, Collection<FacetValue>> facets;
 	private final long numberOfResults;
 	private final Pagination<T> pagination;
 
 	public SearchResult(List<T> results, Multimap<String, FacetValue> facets, long numberOfResults, SearchCriteria<T> searchCriteria) {
-		this.results = results;
+		this.results = newHashMap();
+
+		for (T result : results) {
+			this.results.put(result.getId(), result);
+		}
+
 		this.facets = facets.asMap();
 		this.numberOfResults = numberOfResults;
 		this.pagination = new Pagination<T>(searchCriteria, numberOfResults);
 	}
 
-	public List<T> getResults() {
+	public Map<String, T> getResults() {
 		return results;
 	}
 

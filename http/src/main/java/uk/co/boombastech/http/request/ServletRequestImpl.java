@@ -1,13 +1,14 @@
 package uk.co.boombastech.http.request;
 
 import com.google.common.collect.Multimap;
-import uk.co.boombastech.json.JsonMarshaller;
+import uk.co.boombastech.http.json.JsonMarshaller;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 import static com.google.common.collect.ArrayListMultimap.create;
+import static com.google.common.collect.Maps.newHashMap;
 
 public class ServletRequestImpl implements Request {
 
@@ -89,12 +90,12 @@ public class ServletRequestImpl implements Request {
 	}
 
 	@Override
-	public List<Map> getContent() {
+	public Map<String, Map> getContent() {
 		try {
-			List listToReturn = jsonMarshaller.fromJson(request.getReader());
+			Map<String, Map> listToReturn = jsonMarshaller.fromJson(request.getReader());
 			return listToReturn;
 		} catch (Exception e) {
-			return Collections.emptyList();
+			return newHashMap();
 		}
 	}
 }

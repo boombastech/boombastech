@@ -1,9 +1,8 @@
 package uk.co.boombastech.http.injection;
 
-import com.google.gson.Gson;
 import uk.co.boombastech.http.request.Request;
 import uk.co.boombastech.http.request.ServletRequestImpl;
-import uk.co.boombastech.json.JsonMarshaller;
+import uk.co.boombastech.http.json.JsonMarshaller;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

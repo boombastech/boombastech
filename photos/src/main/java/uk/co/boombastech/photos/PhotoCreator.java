@@ -3,6 +3,7 @@ package uk.co.boombastech.photos;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import uk.co.boombastech.photos.models.Photo;
+import uk.co.boombastech.utils.DateUtils;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -11,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class PhotoCreator {
 
@@ -22,9 +24,9 @@ public class PhotoCreator {
 		Date date;
 		try {
 			date = format.parse(timestamp);
-			return new Photo(null, 0,filename, date, null, null);
+			return new Photo(null, 0, filename, date, null, null);
 		} catch (ParseException exception) {
-			return new Photo(null, 0,filename, null, null, null);
+			return new Photo(null, 0, filename, null, null, null);
 		}
 	}
 
@@ -56,12 +58,8 @@ public class PhotoCreator {
 		}
 
 		if (map.containsKey("date")) {
-			try {
-				DateFormat format = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss aaa");
-				Date date = format.parse((String) map.get("date"));
-				photoBuilder.withDate(date);
-			} catch (ParseException e) {
-			}
+			Optional<Date> dateOptional = DateUtils.parseDate((String) map.get("date"));
+			dateOptional.ifPresent(date -> photoBuilder.withDate(date));
 		}
 
 		return photoBuilder.build();

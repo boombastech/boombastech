@@ -1,9 +1,11 @@
 package uk.co.boombastech.photos.models;
 
+import uk.co.boombastech.solr.search.Document;
+
 import java.util.Date;
 import java.util.List;
 
-public class Photo {
+public class Photo implements Document {
 	private String id;
 	private final long version;
 	private final String filename;

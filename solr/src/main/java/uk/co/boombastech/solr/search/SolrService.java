@@ -1,6 +1,6 @@
 package uk.co.boombastech.solr.search;
 
-public interface SolrService<T> {
+public interface SolrService<T extends Document> {
 
 	SearchResult<T> search(SearchCriteria<T> searchCriteria);
 

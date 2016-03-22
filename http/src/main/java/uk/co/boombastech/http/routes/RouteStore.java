@@ -1,6 +1,5 @@
 package uk.co.boombastech.http.routes;
 
-import uk.co.boombastech.http.controllers.Controller;
 import uk.co.boombastech.http.request.Request;
 
 import javax.inject.Inject;

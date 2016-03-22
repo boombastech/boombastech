@@ -1,6 +1,6 @@
 package uk.co.boombastech.http.request;
 
-import uk.co.boombastech.json.JsonMarshaller;
+import uk.co.boombastech.http.json.JsonMarshaller;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

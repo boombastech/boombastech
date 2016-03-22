@@ -1,7 +1,8 @@
 angular.module('photoApp')
 	.controller('ResultsController', ['$scope', '$rootScope', 'PhotoService', '$uibModal', function($scope, $rootScope, photoService, modal) {
 		$scope.open = function(photo) {
-		    var openPhoto = photo;
+		    console.log($scope.results.results);
+		    var openPhotoId = photo.id;
 			var photoViewerModal = modal.open({
 				templateUrl: 'photo-viewer.html',
 				controller: 'PhotoViewerController',
@@ -15,7 +16,7 @@ angular.module('photoApp')
 
 		    photoViewerModal.result.then(
 		        function (updatedPhoto) {
-                    openPhoto = updatedPhoto;
+                    $rootScope.results.results[openPhotoId] = updatedPhoto;
                 }, function () {
                     console.log('Modal dismissed at: ' + new Date());
                 }
