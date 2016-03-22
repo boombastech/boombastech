@@ -55,6 +55,7 @@ public class SolrServiceImpl<T extends Document> implements SolrService<T> {
 
 		solrQuery.setRows(searchCriteria.getNumberOfResults());
 		solrQuery.setStart(searchCriteria.getNumberOfResults() * (searchCriteria.getPageNumber() -1));
+		solrQuery.addFacetPivotField("year,month,day");
 
 		try {
 			return createSearchResults(solrClient.query(solrQuery), searchCriteria);

@@ -10,6 +10,7 @@ import uk.co.boombastech.solr.search.SolrService;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 public class PhotoIndexer {
 
@@ -29,8 +30,8 @@ public class PhotoIndexer {
 		} catch (ImageProcessingException | IOException e) {
 			e.printStackTrace();
 		}
-		Photo photo = photoCreator.create(file, metadata);
-		solrService.update(photo);
+		Optional<Photo> photoOptional = photoCreator.create(file, metadata);
+		photoOptional.ifPresent(photo -> solrService.update(photo));
 	}
 
 	public void commit() {

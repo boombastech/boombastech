@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class PhotoCreator {
 
-	public Photo create(File fileName, Metadata metadata) {
+	public Optional<Photo> create(File fileName, Metadata metadata) {
 		String filename = fileName.getName();
 		ExifIFD0Directory exifIFD0Directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
 		String timestamp = exifIFD0Directory.getDescription(306);
@@ -24,9 +24,9 @@ public class PhotoCreator {
 		Date date;
 		try {
 			date = format.parse(timestamp);
-			return new Photo(null, 0, filename, date, null, null);
+			return Optional.of(new Photo(null, 0, filename, date, null, null, 0, 0, 0));
 		} catch (ParseException exception) {
-			return new Photo(null, 0, filename, null, null, null);
+			return Optional.empty();
 		}
 	}
 

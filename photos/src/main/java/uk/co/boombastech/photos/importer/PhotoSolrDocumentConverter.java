@@ -28,6 +28,10 @@ public class PhotoSolrDocumentConverter implements SolrDocumentConverter<Photo> 
 		categories.put("set", photo.getCategories());
 		document.addField("category", categories);
 
+		document.addField("year", photo.getYear());
+		document.addField("month", photo.getMonth());
+		document.addField("day", photo.getDay());
+
 		return document;
 	}
 

@@ -44,7 +44,7 @@ angular.module('photoApp')
             photoService.get(selectedFacets, successCallback, errorCallback);
         }
 
-        $rootScope.$watch(  
+        $rootScope.$watch(
             function() {
                 return $rootScope.pageNumber;
             },

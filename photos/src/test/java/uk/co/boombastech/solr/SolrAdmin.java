@@ -46,6 +46,10 @@ public class SolrAdmin {
         photos.add(newPhoto()
                 .withId("photo1")
                 .withFilename("photo1.png")
+                .withDate(new Date())
+                .withYear(2015)
+                .withMonth(9)
+                .withDay(24)
                 .withAlbum("Wales Summer 2015")
                 .withCategory("Holiday")
                 .build());
@@ -53,6 +57,10 @@ public class SolrAdmin {
         photos.add(newPhoto()
                 .withId("photo2")
                 .withFilename("photo2.jpg")
+                .withDate(new Date())
+                .withYear(2015)
+                .withMonth(9)
+                .withDay(23)
                 .withAlbum("Wales Summer 2015")
                 .withCategory("Holiday")
                 .build());
@@ -60,6 +68,10 @@ public class SolrAdmin {
         photos.add(newPhoto()
                 .withId("photo3")
                 .withFilename("photo3.jpg")
+                .withDate(new Date())
+                .withYear(2015)
+                .withMonth(8)
+                .withDay(24)
                 .withAlbum("Thomas Land")
                 .withCategory("Trains")
                 .build());
@@ -67,6 +79,10 @@ public class SolrAdmin {
         photos.add(newPhoto()
                 .withId("photo4")
                 .withFilename("photo4.jpg")
+                .withDate(new Date())
+                .withYear(2014)
+                .withMonth(5)
+                .withDay(2)
                 .withAlbum("Thomas Land")
                 .withCategory("Trains")
                 .build());
@@ -74,6 +90,7 @@ public class SolrAdmin {
         photos.add(newPhoto()
                 .withId("photo5")
                 .withFilename("photo5.jpg")
+                .withDate(new Date())
                 .withAlbum("Thomas Land")
                 .withCategory("Trains")
                 .build());

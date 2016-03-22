@@ -16,6 +16,9 @@ public class PhotoBuilder implements Builder<Photo> {
 	private List<String> albums = newArrayList();
 	private List<String> categories = newArrayList();
 	private long version;
+	private int year;
+	private int month;
+	private int day;
 
 	public PhotoBuilder withId(String id) {
 		this.id = id;
@@ -49,10 +52,25 @@ public class PhotoBuilder implements Builder<Photo> {
 
 	@Override
 	public Photo build() {
-		return new Photo(id, version, filename, date, albums, categories);
+		return new Photo(id, version, filename, date, albums, categories, year, month, day);
 	}
 
 	public static PhotoBuilder newPhoto() {
 		return new PhotoBuilder();
+	}
+
+	public PhotoBuilder withYear(int year) {
+		this.year = year;
+		return this;
+	}
+
+	public PhotoBuilder withMonth(int month) {
+		this.month = month;
+		return this;
+	}
+
+	public PhotoBuilder withDay(int day) {
+		this.day = day;
+		return this;
 	}
 }
