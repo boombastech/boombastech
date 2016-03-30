@@ -53,6 +53,18 @@ angular.module('photoApp')
             }
         );
 
+        $scope.activate = function(facetValue, selected) {
+            if (selected) {
+                facetValue.selected = true;
+            }
+        }
+
+        $scope.deactivate = function(facetValue) {
+            for (var pivotFacet in facetValue.pivotFacets) {
+                pivotFacet.selected = false;
+            }
+        }
+
         $scope.update = function() {
         	photoService.update($rootScope.results.results,
 				function() {

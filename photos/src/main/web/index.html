@@ -26,60 +26,11 @@
 
     <body>
         <div class="container">
-            <div id="facetPane" class="col-md-4" ng-controller="SearchController" ng-init="searchInit()">
-                <div ng-repeat="(facetName, facetValues) in results.facets">
-                    <h4>{{ facetName }}</h4>
-                    <div class="checkbox" ng-repeat="facetValue in facetValues">
-                        <label for="facet-{{facetValue.name}}">
-                            <input id="facet-{{facetValue.name}}" type="checkbox" value="{{facetValue.name}}" ng-model="facetValue.selected"/>
-                            {{facetValue.name}} ({{facetValue.count}})
-                        </label>
-                    </div>
-                </div>
-                <button class="btn btn-primary" ng-click="search()">Search</button>
-                <button class="btn btn-primary" ng-click="update()">Update</button>
-            </div>
+            <div id="facetPane" class="col-md-4" ng-controller="SearchController" ng-init="searchInit()" ng-include="'search.html'"></div>
 
-            <div id="resultsPane" class="col-md-8" ng-controller="ResultsController">
-                <div class="row">
-                    <div class="col-md-3" ng-repeat="result in results.results">
-                        <div class="row">
-                            <img ng-class="{highlighted: result.highlighted}" src="/photos/{{ result.filename }}" class="img-thumbnail" ng-click="open(result)" />
-                            <input type="checkbox" ng-model="result.highlighted" style="position:absolute; top:5px;right:8px;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="pagination" class="col-md-12" ng-controller="PaginationController">
-                <ul class="pagination">
-                    <li ng-show="results.pagination.previous">
-                        <a ng-click="previous()" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="disabled" ng-hide="results.pagination.previous">
-                        <span aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </span>
-                    </li>
-                    <li ng-repeat="(key,value) in results.pagination.pagination" ng-class="{'active': value.active }">
-                        <a href="#" ng-click="changePage(value.pageNumber)">{{ value.pageNumber }}</a>
-                    </li>
-                    <li ng-show="results.pagination.next ">
-                        <a href="#" aria-label="Next" ng-click="next()">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    <li class="disabled" ng-hide="results.pagination.next">
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-12">
-                    {{ results }}
-            </div>
+            <div id="resultsPane" class="col-md-8" ng-controller="ResultsController" ng-include="'results.html'"></div>
+
+            <div id="pagination" class="col-md-4" ng-controller="PaginationController" ng-include="'pagination.html'"></div>
         </div>
     </body>
 </html>
