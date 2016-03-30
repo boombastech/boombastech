@@ -1,16 +1,23 @@
 configurations {
     testArtifacts.extendsFrom testRuntime
 }
+
 task testJar(type: Jar) {
     classifier "test"
     from sourceSets.test.output
 }
+
 artifacts {
     testArtifacts testJar
 }
 
 dependencies {
     compile 'redis.clients:jedis:2.7.2'
+    compile 'javax.validation:validation-api:1.1.0.Final'
+    compile 'org.hibernate:hibernate-validator:5.2.4.Final'
+    compile 'javax.el:javax.el-api:2.2.4'
+    compile 'org.glassfish.web:javax.el:2.2.4'
+    compile 'org.apache.commons:commons-lang3:3.4'
 }
 
 sourceSets {
