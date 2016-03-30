@@ -2,10 +2,15 @@ package uk.co.boombastech.solr.search.facets;
 
 import uk.co.boombastech.utils.Builder;
 
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
+
 public class FacetValueBuilder implements Builder<FacetValue> {
 	private String facetOptionName;
 	private long facetOptionCount;
 	private boolean selected;
+	private List<FacetValue> facetValues = newArrayList();
 
 	public FacetValueBuilder withFacetOptionName(String facetOptionName) {
 		this.facetOptionName = facetOptionName;
@@ -22,8 +27,13 @@ public class FacetValueBuilder implements Builder<FacetValue> {
 		return this;
 	}
 
+	public FacetValueBuilder withPivotFacetValue(FacetValue facetValue) {
+		this.facetValues.add(facetValue);
+		return this;
+	}
+
 	@Override
 	public FacetValue build() {
-		return new FacetValue(facetOptionName, facetOptionCount, selected);
+		return new FacetValue(facetOptionName, facetValues, facetOptionCount, selected);
 	}
 }

@@ -10,10 +10,9 @@ import uk.co.boombastech.photos.importer.ImporterController;
 import uk.co.boombastech.photos.importer.ImporterService;
 import uk.co.boombastech.photos.importer.PhotoIndexer;
 import uk.co.boombastech.photos.models.Photo;
-import uk.co.boombastech.photos.search.PhotoFacets;
+import uk.co.boombastech.photos.search.PhotoFacet;
 import uk.co.boombastech.http.routes.MutableRouteStore;
-import uk.co.boombastech.solr.search.SolrServiceImpl;
-import uk.co.boombastech.solr.search.facets.Facets;
+import uk.co.boombastech.solr.search.facets.AvailableFacets;
 import uk.co.boombastech.solr.search.SolrService;
 import uk.co.boombastech.http.injection.WebModule;
 
@@ -25,7 +24,7 @@ public class PhotosModule extends WebModule {
 
 		bind(ImporterService.class).asEagerSingleton();
 		bind(PhotoIndexer.class);
-		bind(Facets.class).toInstance(new Facets(Lists.newArrayList(PhotoFacets.values())));
+		bind(AvailableFacets.class).toInstance(new AvailableFacets(Lists.newArrayList(PhotoFacet.values())));
 	}
 
 	@Override

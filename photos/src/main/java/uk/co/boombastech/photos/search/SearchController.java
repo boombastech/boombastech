@@ -5,11 +5,10 @@ import uk.co.boombastech.http.request.Request;
 import uk.co.boombastech.http.request.Response;
 import uk.co.boombastech.photos.models.Photo;
 import uk.co.boombastech.solr.search.*;
-import uk.co.boombastech.solr.search.facets.Facets;
+import uk.co.boombastech.solr.search.facets.AvailableFacets;
 import uk.co.boombastech.utils.NumberUtils;
 
 import javax.inject.Inject;
-import javax.swing.text.NumberFormatter;
 import java.util.Optional;
 
 public class SearchController implements Controller {
@@ -18,12 +17,12 @@ public class SearchController implements Controller {
 	private static final String SIZE = "size";
 	private static final String PAGE = "page";
 	private final SolrService<Photo> solrService;
-	private final Facets facets;
+	private final AvailableFacets availableFacets;
 
 	@Inject
-	public SearchController(SolrService<Photo> solrService, Facets facets) {
+	public SearchController(SolrService<Photo> solrService, AvailableFacets availableFacets) {
 		this.solrService = solrService;
-		this.facets = facets;
+		this.availableFacets = availableFacets;
 	}
 
 	@Override
@@ -32,7 +31,7 @@ public class SearchController implements Controller {
 		searchCriteria.setNumberOfResults(2);
 
 		for (String parameter : request.getQueryParameters()) {
-			if (facets.contains(parameter)) {
+			if (availableFacets.contains(parameter)) {
 				request.getQueryParameter(parameter).stream().forEach(value -> searchCriteria.withFacet(parameter, value));
 			}
 		}

@@ -15,14 +15,14 @@ public class FacetView {
 		Multimap<String, String> multimap = ArrayListMultimap.create();
 
 
-		Map<String, Collection<FacetValue>> facets = searchResult.getFacets();
+//		Map<String, Collection<FacetValue>> facets = searchResult.getFacets();
 
-		for (String facetName : facets.keySet()) {
-			for (FacetValue facetValue : facets.get(facetName)) {
-				multimap.put(facetName, facetValue.getName());
-			}
-
-		}
+//		for (String facetName : facets.keySet()) {
+//			for (FacetValue facetValue : facets.get(facetName)) {
+//				multimap.put(facetName, facetValue.getName());
+//			}
+//
+//		}
 
 		this.facets = multimap.asMap();
 	}

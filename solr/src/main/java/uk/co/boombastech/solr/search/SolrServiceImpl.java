@@ -8,21 +8,22 @@ import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.apache.solr.client.solrj.response.PivotField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import uk.co.boombastech.solr.converters.SolrDocumentConverter;
+import uk.co.boombastech.solr.search.facets.Facet;
 import uk.co.boombastech.solr.search.facets.FacetValue;
 import uk.co.boombastech.solr.search.facets.FacetValueBuilder;
-import uk.co.boombastech.solr.search.facets.Facets;
+import uk.co.boombastech.solr.search.facets.AvailableFacets;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Collections.emptyList;
 
 public class SolrServiceImpl<T extends Document> implements SolrService<T> {
 
@@ -35,32 +36,33 @@ public class SolrServiceImpl<T extends Document> implements SolrService<T> {
 
 	private final SolrClient solrClient;
 	private final SolrDocumentConverter<T> converter;
-	private final Facets facets;
+	private final AvailableFacets availableFacets;
 
 	@Inject
-	public SolrServiceImpl(SolrClient solrClient, SolrDocumentConverter<T> converter, Facets facets) {
+	public SolrServiceImpl(SolrClient solrClient, SolrDocumentConverter<T> converter, AvailableFacets availableFacets) {
 		this.solrClient = solrClient;
 		this.converter = converter;
-		this.facets = facets;
+		this.availableFacets = availableFacets;
 	}
 
 	@Override
 	public SearchResult<T> search(SearchCriteria<T> searchCriteria) {
 		SolrQuery solrQuery = new SolrQuery();
 		solrQuery.setQuery(createQueryString(searchCriteria));
-		facets.forEach(facet -> solrQuery.addFacetField(facet.name()));
+		availableFacets.getFacets().forEach(solrQuery::addFacetField);
 		solrQuery.setFacetMinCount(1);
 
 		searchCriteria.getSortByField().ifPresent(sortField -> solrQuery.addSort(sortField, ORDER.asc));
 
 		solrQuery.setRows(searchCriteria.getNumberOfResults());
 		solrQuery.setStart(searchCriteria.getNumberOfResults() * (searchCriteria.getPageNumber() -1));
-		solrQuery.addFacetPivotField("year,month,day");
+
+		availableFacets.getPivots().forEach(solrQuery::addFacetPivotField);
 
 		try {
 			return createSearchResults(solrClient.query(solrQuery), searchCriteria);
 		} catch (SolrServerException | IOException e) {
-			return new SearchResult<T>(Collections.emptyList(), ArrayListMultimap.create(), 0, searchCriteria);
+			return new SearchResult<>(emptyList(), emptyList(), 0, searchCriteria);
 		}
 	}
 
@@ -90,8 +92,10 @@ public class SolrServiceImpl<T extends Document> implements SolrService<T> {
 			converter.convertFrom(solrDocument).ifPresent(convertedDocument -> results.add(convertedDocument));
 		}
 
-		Multimap<String, FacetValue> facets = ArrayListMultimap.create();
+		List<Facet> facets = newArrayList();
+
 		for (FacetField facetField : response.getFacetFields()) {
+			List<FacetValue> facetValues = newArrayList();
 			String name = facetField.getName();
 			for (Count facetFieldCount : facetField.getValues()) {
 				FacetValue facetValue = new FacetValueBuilder()
@@ -99,17 +103,36 @@ public class SolrServiceImpl<T extends Document> implements SolrService<T> {
 						.withFacetOptionCount(facetFieldCount.getCount())
 						.withSelected(searchCriteria.getSearchCriteria().containsKey(name) && searchCriteria.getSearchCriteria().get(name).contains(facetFieldCount.getName()))
 						.build();
-
-				facets.put(name, facetValue);
+				facetValues.add(facetValue);
 			}
+			facets.add(new Facet(name, facetValues));
 		}
 
+		for (Map.Entry<String, List<PivotField>> facetPivot : response.getFacetPivot()) {
+			String facetName = facetPivot.getKey();
+			List<FacetValue> facetValues = newArrayList();
+			for (PivotField pivotField : facetPivot.getValue()) {
+				facetValues.add(createFacetValue(pivotField));
+			}
+
+			facets.add(new Facet(facetName, facetValues));
+		}
 
 		SearchResult<T> tSearchResult = new SearchResult<>(results, facets, response.getResults().getNumFound(), searchCriteria);
 		return tSearchResult;
 	}
 
+	private FacetValue createFacetValue(PivotField pivotField) {
+		FacetValueBuilder facetValueBuilder = new FacetValueBuilder()
+				.withFacetOptionName(String.valueOf(pivotField.getValue()))
+				.withFacetOptionCount(pivotField.getCount());
 
+		if (pivotField.getPivot() != null) {
+			pivotField.getPivot().stream().forEach(pivotFieldChild -> facetValueBuilder.withPivotFacetValue(createFacetValue(pivotFieldChild)));
+		}
+
+		return facetValueBuilder.build();
+	}
 
 	private String createQueryString(SearchCriteria<T> searchCriteria) {
 		List<String> queries = newArrayList();

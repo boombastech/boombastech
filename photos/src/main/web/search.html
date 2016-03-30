@@ -1,17 +1,20 @@
-<div ng-repeat="(facetName, facetValues) in results.facets">
-    <h4>{{ facetName }}</h4>
-    <div class="checkbox" ng-repeat="facetValue in facetValues">
-        <label for="facet-{{facetValue.name}}">
-            <input id="facet-{{facetValue.name}}" type="checkbox" value="{{facetValue.name}}" ng-model="facetValue.selected" ng-click="deactivate(facetValue)"/>
-            {{facetValue.name}} ({{facetValue.count}})
-        </label>
-        <div ng-repeat="pivot in facetValue.pivotFacets">
-            <label for="" >
-                <input id="" type="checkbox" value="{{pivot.name}}" ng-model="pivot.selected" ng-click="activate(facetValue, pivot.selected)" />
-                {{ pivot.name }} ({{ pivot.count}})
-            </label>
-        </div>
-    </div>
+<div ng-repeat="facet in results.facets">
+	<h4>{{ facet.name }}</h4>
+	<ul>
+		<li class="checkbox" ng-repeat="facetValue in facet.values" ng-include="'facet.html'"></li>
+	</ul>
 </div>
 <button class="btn btn-primary" ng-click="search()">Search</button>
 <button class="btn btn-primary" ng-click="update()">Update</button>
+
+<script type="text/ng-template" id="facet.html">
+	<label for="facet-{{facetValue.name}}">
+		<input id="facet-{{facetValue.name}}" type="checkbox" value="{{facetValue.name}}"
+			   ng-model="facetValue.selected"/>
+		<span class="facet-name">{{facetValue.name}}</span>
+		<span class="facet-count">({{facetValue.count}})</span>
+	</label>
+	<ul ng-if="facetValue.values.length > 0" ng-show="facetValue.selected">
+		<li class="checkbox" ng-repeat="facetValue in facetValue.values" ng-include="'facet.html'"></li>
+	</ul>
+</script>

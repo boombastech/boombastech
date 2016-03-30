@@ -3,7 +3,7 @@ package uk.co.boombastech.photos.injection;
 import org.apache.solr.client.solrj.SolrClient;
 import uk.co.boombastech.photos.models.Photo;
 import uk.co.boombastech.photos.importer.PhotoSolrDocumentConverter;
-import uk.co.boombastech.solr.search.facets.Facets;
+import uk.co.boombastech.solr.search.facets.AvailableFacets;
 import uk.co.boombastech.solr.search.SolrService;
 import uk.co.boombastech.solr.search.SolrServiceImpl;
 
@@ -17,8 +17,8 @@ public class PhotoSolrServiceProvider implements Provider<SolrService<Photo>> {
 	private final SolrService solrService;
 
 	@Inject
-	public PhotoSolrServiceProvider(SolrClient solrClient, PhotoSolrDocumentConverter converter, Facets facets) {
-		solrService = new SolrServiceImpl(solrClient, converter, facets);
+	public PhotoSolrServiceProvider(SolrClient solrClient, PhotoSolrDocumentConverter converter, AvailableFacets availableFacets) {
+		solrService = new SolrServiceImpl(solrClient, converter, availableFacets);
 	}
 
 	@Override
