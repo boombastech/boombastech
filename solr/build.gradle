@@ -4,6 +4,8 @@ dependencies {
 
     compile 'commons-logging:commons-logging:1.2'
     compile 'org.apache.solr:solr-solrj:5.3.0'
+
+    testCompile 'org.mockito:mockito-all:1.10.19'
 }
 
 sourceSets {

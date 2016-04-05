@@ -2,7 +2,6 @@ package uk.co.boombastech.solr.search;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
@@ -18,7 +17,6 @@ import uk.co.boombastech.solr.search.facets.FacetValueBuilder;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,37 +26,20 @@ import static java.util.Collections.emptyList;
 
 public class SolrServiceImpl<T extends Document> implements SolrService<T> {
 
-	private static final String OR = " OR ";
-	private static final String AND = " AND ";
-	private static final String QUERY_ALL = "*:*";
-	private static final String COLON = ":";
-	private static final String OPENING_BRACKET = "(";
-	private static final String CLOSING_BRACKET = ")";
-
 	private final SolrClient solrClient;
+	private final SolrQueryFactory solrQueryFactory;
 	private final SolrDocumentConverter<T> converter;
-	private final AvailableFacets availableFacets;
 
 	@Inject
-	public SolrServiceImpl(SolrClient solrClient, SolrDocumentConverter<T> converter, AvailableFacets availableFacets) {
+	public SolrServiceImpl(SolrClient solrClient, SolrQueryFactory solrQueryFactory, SolrDocumentConverter<T> converter, AvailableFacets availableFacets) {
 		this.solrClient = solrClient;
+		this.solrQueryFactory = solrQueryFactory;
 		this.converter = converter;
-		this.availableFacets = availableFacets;
 	}
 
 	@Override
 	public SearchResult<T> search(SearchCriteria<T> searchCriteria) {
-		SolrQuery solrQuery = new SolrQuery();
-		solrQuery.setQuery(createQueryString(searchCriteria));
-		availableFacets.getFacets().forEach(solrQuery::addFacetField);
-		solrQuery.setFacetMinCount(1);
-
-		searchCriteria.getSortByField().ifPresent(sortField -> solrQuery.addSort(sortField, ORDER.asc));
-
-		solrQuery.setRows(searchCriteria.getNumberOfResults());
-		solrQuery.setStart(searchCriteria.getNumberOfResults() * (searchCriteria.getPageNumber() - 1));
-
-		availableFacets.getPivots().forEach(solrQuery::addFacetPivotField);
+		SolrQuery solrQuery = solrQueryFactory.create(searchCriteria);
 
 		try {
 			return createSearchResults(solrClient.query(solrQuery), searchCriteria);
@@ -131,21 +112,5 @@ public class SolrServiceImpl<T extends Document> implements SolrService<T> {
 		}
 
 		return facetValueBuilder.build();
-	}
-
-	private String createQueryString(SearchCriteria<T> searchCriteria) {
-		List<String> queries = newArrayList();
-
-		for (String facetName : searchCriteria.getSearchCriteria().keySet()) {
-			Collection<String> facetValues = searchCriteria.getSearchCriteria().get(facetName);
-			String query = facetName + COLON + OPENING_BRACKET + String.join(OR, facetValues) + CLOSING_BRACKET;
-			queries.add(query);
-		}
-
-		if (queries.isEmpty()) {
-			return QUERY_ALL;
-		} else {
-			return String.join(AND, queries);
-		}
 	}
 }

@@ -1,11 +1,12 @@
 <div ng-repeat="facet in results.facets">
 	<h4>{{ facet.name }}</h4>
 	<ul>
-		<li class="checkbox" ng-repeat="facetValue in facet.values" ng-include="'facet.html'"></li>
+		<li class="checkbox" ng-repeat="facetValue in facet.facetValues" ng-include="'facet.html'"></li>
 	</ul>
 </div>
 <button class="btn btn-primary" ng-click="search()">Search</button>
 <button class="btn btn-primary" ng-click="update()">Update</button>
+
 
 <script type="text/ng-template" id="facet.html">
 	<label for="facet-{{facetValue.name}}">
@@ -14,7 +15,7 @@
 		<span class="facet-name">{{facetValue.name}}</span>
 		<span class="facet-count">({{facetValue.count}})</span>
 	</label>
-	<ul ng-if="facetValue.values.length > 0" ng-show="facetValue.selected">
-		<li class="checkbox" ng-repeat="facetValue in facetValue.values" ng-include="'facet.html'"></li>
+	<ul ng-if="facetValue.facetValues.length > 0" ng-show="facetValue.selected">
+		<li class="checkbox" ng-repeat="facetValue in facetValue.facetValues" ng-include="'facet.html'"></li>
 	</ul>
 </script>
